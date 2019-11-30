@@ -1,9 +1,9 @@
 const
 	NONE = "none",
-	COMPETITIONS_URL = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/competitions.json",
-	MATCHES_URL = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/matches/",
-	LINEUP_URL = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/lineups/",
-	EVENT_URL = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/";
+	COMPETITIONS_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/competitions.json",
+	MATCHES_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/matches/",
+	LINEUP_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/lineups/",
+	EVENT_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/events/";
 
 const
 	COUNTRY_HTML_ID = "country",
@@ -15,8 +15,6 @@ const
 	PLAYER_HTML_ID = "player";
 
 const
-	// SELECT_HTML_IDS = [COUNTRY_HTML_ID, COMPETITION_HTML_ID, SEASON_HTML_ID, GENDER_HTML_ID,
-	// 	HOME_TEAM_HTML_ID, AWAY_TEAM_HTML_ID, PLAYER_HTML_ID],
 	countryHtmlSelect = $("#" + COUNTRY_HTML_ID)[0],
 	competitionHtmlSelect = $("#" + COMPETITION_HTML_ID)[0],
 	seasonHtmlSelect = $("#" + SEASON_HTML_ID)[0],

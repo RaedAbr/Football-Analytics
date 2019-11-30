@@ -19,11 +19,6 @@ Array.prototype.distinct = function(prop) {
 	});
 };
 
-// function resetNextSelectElements(id) {
-// 	const ids = SELECT_HTML_IDS.slice(SELECT_HTML_IDS.indexOf(id) + 1);
-// 	console.log(ids);
-// }
-
 async function loadJSON(url) {
 	return fetch(url)
 		.then(response => {
@@ -64,7 +59,6 @@ function loadCompetitions(data) {
 	const distinctByCompetition = data.distinct("competition_id");
 	console.log(distinctByCompetition);
 
-	// competitionHtmlSelect.resetNextElements();
 	distinctByCompetition.forEach(competition => competitionHtmlSelect.append(new Option(competition.competition_name, competition.competition_id)));
 	$(competitionHtmlSelect).prop( "disabled", false );
 
@@ -146,7 +140,6 @@ function loadHomeTeams(competition) {
 			// event
 			$(homeTeamHtmlSelect).unbind("change");
 			$(homeTeamHtmlSelect).change(function (e) {
-				// e.stopImmediatePropagation();
 				homeTeamHtmlSelect.resetNextElements();
 				const homeTeamId = Number($(this).val());
 				if (homeTeamId) {
@@ -174,7 +167,6 @@ function loadAwayTeams(matches) {
 	// event
 	$(awayTeamHtmlSelect).unbind("change");
 	$(awayTeamHtmlSelect).change(function (e) {
-		// e.stopImmediatePropagation();
 		awayTeamHtmlSelect.resetNextElements();
 		const awayTeamId = Number($(this).val());
 		if (awayTeamId) {

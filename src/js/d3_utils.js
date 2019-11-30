@@ -23,16 +23,13 @@ $("svg").css({
   backgroundPositionY: margin.top
 });
 
-// const url = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/266310.json",
-//   playerName = "Lionel Andrés Messi Cuccittini";
-
-// $("#test-button").click(function () {
-//   updateD3(url, playerName);
-// });
-
 function updateD3(url, playerId) {
   d3.json(url, function(data) {
-    data = data.filter(event => event.location).filter(event => event.player.id === playerId);
+    // Clear svg
+    svg.selectAll("g").remove();
+
+    data = data.filter(event => event.location && event.player)
+      .data = data.filter(event => event.player.id === playerId);
 
     const maxX = 120;
     const maxY = 80;
@@ -41,18 +38,17 @@ function updateD3(url, playerId) {
     const x = d3.scaleLinear()
       .domain([0, maxX])
       .range([0, width]);
-
-    svg.selectAll("g").remove();
-    svg.append("g")
-    // .attr("transform", "translate(0," + margin.top + ")")
-      .call(d3.axisBottom(x));
+    // Display X axis
+    // svg.append("g")
+    //   .call(d3.axisBottom(x));
 
     // Add Y axis
     const y = d3.scaleLinear()
       .domain([0, maxY])
       .range([0, height]);
-    svg.append("g")
-      .call(d3.axisRight(y));
+    // Display Y axis
+    // svg.append("g")
+    //   .call(d3.axisRight(y));
 
     // Prepare a color palette
     const color = d3.scaleLinear()
