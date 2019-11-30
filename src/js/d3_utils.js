@@ -2,8 +2,8 @@ const imageUrl = "img/field.jpg";
 
 // set the dimensions and margins of the graph
 const margin = {top: 20, right: 20, bottom: 20, left: 20},
-  width = 600 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
+  width = 450 - margin.left - margin.right,
+  height = 300 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 const svg = d3.select("#heatmap")
@@ -23,16 +23,20 @@ $("svg").css({
   backgroundPositionY: margin.top
 });
 
-// const url = "https://raw.githubusercontent.com/statsbomb/open-data/master/data/events/266310.json",
-//   playerName = "Lionel Andrés Messi Cuccittini";
-
-// $("#test-button").click(function () {
-//   updateD3(url, playerName);
-// });
-
-function updateD3(url, playerId) {
+/**
+ * Update svg element with new player event
+ * @param url Url of the match event
+ * @param playerId Player id
+ * @param bandwidth
+ * @param valueScale
+ */
+function updateD3(url, playerId, bandwidth=10, valueScale=30) {
   d3.json(url, function(data) {
-    data = data.filter(event => event.location).filter(event => event.player.id === playerId);
+    // Clear svg
+    svg.selectAll("g").remove();
+
+    data = data.filter(event => event.location && event.player)
+      .filter(event => event.player.id === playerId);
 
     const maxX = 120;
     const maxY = 80;
@@ -41,18 +45,17 @@ function updateD3(url, playerId) {
     const x = d3.scaleLinear()
       .domain([0, maxX])
       .range([0, width]);
-
-    svg.selectAll("g").remove();
-    svg.append("g")
-    // .attr("transform", "translate(0," + margin.top + ")")
-      .call(d3.axisBottom(x));
+    // Display X axis
+    // svg.append("g")
+    //   .call(d3.axisBottom(x));
 
     // Add Y axis
     const y = d3.scaleLinear()
       .domain([0, maxY])
       .range([0, height]);
-    svg.append("g")
-      .call(d3.axisRight(y));
+    // Display Y axis
+    // svg.append("g")
+    //   .call(d3.axisRight(y));
 
     // Prepare a color palette
     const color = d3.scaleLinear()
@@ -68,7 +71,7 @@ function updateD3(url, playerId) {
         return y(d.location[1]);
       })
       .size([width, height])
-      .bandwidth(12)
+      .bandwidth(bandwidth)
       (data);
 
     // show the shape!
@@ -77,6 +80,6 @@ function updateD3(url, playerId) {
       .data(densityData)
       .enter().append("path")
       .attr("d", d3.geoPath())
-      .attr("fill", function(d) { return color(d.value * 100); });
+      .attr("fill", function(d) { return color(d.value * valueScale); });
   });
 }

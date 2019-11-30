@@ -2,16 +2,14 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Football Analytics</title>
   <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-  <!--  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>-->
   <link rel='stylesheet' href='css/fontawesome-free-5.11.2/all.css'>
   <link rel="stylesheet" href="css/style.css">
-
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<div class="sidebar-container">
+<div class="sidebar-container-left">
   <div class="sidebar-logo">
     Football Analytics
   </div>
@@ -43,45 +41,57 @@
     <select name="gender" id="gender" class="form-control">
     </select>
   </div>
-  <!--    <li>-->
-  <!--      <a href="#">-->
-  <!--        <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard-->
-  <!--      </a>-->
-  <!--    </li>-->
-  <!--    <li class="header">Another Menu</li>-->
-  <!--    <li>-->
-  <!--      <a href="#">-->
-  <!--        <i class="fa fa-users" aria-hidden="true"></i> Friends-->
-  <!--      </a>-->
-  <!--    </li>-->
-  <!--    <li>-->
-  <!--      <a href="#">-->
-  <!--        <i class="fa fa-cog" aria-hidden="true"></i> Settings-->
-  <!--      </a>-->
-  <!--    </li>-->
-  <!--    <li>-->
-  <!--      <a href="#">-->
-  <!--        <i class="fa fa-info-circle" aria-hidden="true"></i> Information-->
-  <!--      </a>-->
-  <!--    </li>-->
-  <!--  </ul>-->
+</div>
+
+<div class="sidebar-container-right">
+  <div class="panel panel-default">
+    <div class="panel-heading">Other informations</div>
+    <table class="table">
+      <tr>
+        <td>Date</td>
+        <td><span id="match_date">-</span> at <span id="kick_off">-</span></td>
+      </tr>
+      <tr>
+        <td>Week</td>
+        <td><span id="match_week">-</span></td>
+      </tr>
+      <tr>
+        <td>Referee</td>
+        <td><span id="referee">-</span></td>
+      </tr>
+      <tr>
+        <td>Stadium</td>
+        <td><span id="stadium">-</span>, <span id="stadium-country">-</span></td>
+      </tr>
+    </table>
+  </div>
 </div>
 
 <div class="content-container">
-
   <div class="container-fluid">
-
-    <!--    Main component for a primary marketing message or call to action-->
     <div class="jumbotron">
       <div class="row text-center">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <h3><label for="home_team">Home team</label></h3>
           <div class="form-group">
             <select name="home_team" id="home_team" class="form-control">
             </select>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
+          <div class="panel panel-primary">
+            <div class="panel-heading">Final Score</div>
+
+            <table class="table">
+              <tr>
+                <td><strong><span id="home-score">-</span></strong></td>
+                <td>:</td>
+                <td><strong><span id="away-score">-</span></strong></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-4">
           <h3><label for="away_team">Away team</label></h3>
           <div class="form-group">
             <select name="away_team" id="away_team" class="form-control">
@@ -91,26 +101,37 @@
       </div>
     </div>
 
-    <h4><label for="player">Player</label></h4>
     <div class="form-group">
+      <h4><label for="player">Player</label></h4>
       <select name="player" id="player" class="form-control">
       </select>
     </div>
 
-
-<!--    <input id="test-button" type="button" value="Refresh">-->
-<!--    <label>-->
-<!--      Player name:-->
-<!--      <input type="text" value="Lionel Andrés Messi Cuccittini">-->
-<!--    </label>-->
-<!--    <label>-->
-<!--      Match id:-->
-<!--      <input type="text" value="266310">-->
-<!--    </label>-->
-<!--    file: 266310.json-->
-
-    <!-- Create a div where the graph will take place -->
-    <div id="heatmap"></div>
+    <div class="container-fluid">
+      <!-- div where the graph will take place -->
+      <div class="text-center" id="heatmap"></div>
+      <!--      <table>-->
+      <!--        <tr>-->
+      <!--          <td rowspan="2">-->
+      <!--            <div id="heatmap"></div>-->
+      <!--          </td>-->
+      <!--          <td>-->
+      <!--            <label>-->
+      <!--              Bandwidth: <span id="bandwidth-span">10</span>-->
+      <!--              <input type="range" id="bandwidth" min="0" max="20" value="10">-->
+      <!--            </label>-->
+      <!--          </td>-->
+      <!--        </tr>-->
+      <!--        <tr>-->
+      <!--          <td>-->
+      <!--            <label>-->
+      <!--              ValueScale: <span id="valuescale-span">30</span>-->
+      <!--              <input type="range" id="valuescale" min="0" max="1000" value="30">-->
+      <!--            </label>-->
+      <!--          </td>-->
+      <!--        </tr>-->
+      <!--      </table>-->
+    </div>
 
   </div>
 </div>
@@ -124,8 +145,9 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 <!-- specific plugin -->
 <script src="https://d3js.org/d3-contour.v1.min.js"></script>
-<script src="js/index.js"></script>
-<script src="js/dataManager.js"></script>
+<!--others-->
+<script src="js/d3_utils.js"></script>
+<script src="js/load_data.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
