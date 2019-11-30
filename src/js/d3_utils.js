@@ -2,8 +2,8 @@ const imageUrl = "img/field.jpg";
 
 // set the dimensions and margins of the graph
 const margin = {top: 20, right: 20, bottom: 20, left: 20},
-  width = 600 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
+  width = 450 - margin.left - margin.right,
+  height = 300 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 const svg = d3.select("#heatmap")
@@ -23,13 +23,20 @@ $("svg").css({
   backgroundPositionY: margin.top
 });
 
-function updateD3(url, playerId) {
+/**
+ * Update svg element with new player event
+ * @param url Url of the match event
+ * @param playerId Player id
+ * @param bandwidth
+ * @param valueScale
+ */
+function updateD3(url, playerId, bandwidth=10, valueScale=30) {
   d3.json(url, function(data) {
     // Clear svg
     svg.selectAll("g").remove();
 
     data = data.filter(event => event.location && event.player)
-      .data = data.filter(event => event.player.id === playerId);
+      .filter(event => event.player.id === playerId);
 
     const maxX = 120;
     const maxY = 80;
@@ -64,7 +71,7 @@ function updateD3(url, playerId) {
         return y(d.location[1]);
       })
       .size([width, height])
-      .bandwidth(12)
+      .bandwidth(bandwidth)
       (data);
 
     // show the shape!
@@ -73,6 +80,6 @@ function updateD3(url, playerId) {
       .data(densityData)
       .enter().append("path")
       .attr("d", d3.geoPath())
-      .attr("fill", function(d) { return color(d.value * 100); });
+      .attr("fill", function(d) { return color(d.value * valueScale); });
   });
 }

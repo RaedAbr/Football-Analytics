@@ -1,10 +1,17 @@
+const NONE = "none";
+
+/**
+ * Data URLs
+ */
 const
-	NONE = "none",
 	COMPETITIONS_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/competitions.json",
 	MATCHES_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/matches/",
 	LINEUP_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/lineups/",
 	EVENT_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/events/";
 
+/**
+ * html objects' ids
+ */
 const
 	COUNTRY_HTML_ID = "country",
 	COMPETITION_HTML_ID = "competition",
@@ -14,6 +21,9 @@ const
 	AWAY_TEAM_HTML_ID = "away_team",
 	PLAYER_HTML_ID = "player";
 
+/**
+ * HTMLSelectElement tag objects
+ */
 const
 	countryHtmlSelect = $("#" + COUNTRY_HTML_ID)[0],
 	competitionHtmlSelect = $("#" + COMPETITION_HTML_ID)[0],
@@ -25,6 +35,24 @@ const
 	htmlSelectElements = [countryHtmlSelect, competitionHtmlSelect, seasonHtmlSelect, genderHtmlSelect,
 		homeTeamHtmlSelect, awayTeamHtmlSelect, playerHtmlSelect];
 
+/**
+ * span tag JQuery objects
+ */
+const
+	matchDateSpan = $("#match_date"),
+	matchKickoffSpan = $("#kick_off"),
+	matchWeek = $("#match_week"),
+	matchReferee = $("#referee"),
+	matchStadium = $("#stadium"),
+	matchStadiumCountrySpan = $("#stadium-country"),
+	homeScore = $("#home-score"),
+	awayScore = $("#away-score"),
+	spanElements = [matchDateSpan, matchKickoffSpan, matchWeek, matchReferee, matchStadium, matchStadiumCountrySpan,
+		homeScore, awayScore];
+
+/**
+ * main routine
+ */
 countryHtmlSelect.resetElement();
 countryHtmlSelect.resetNextElements();
 loadCountries(COMPETITIONS_URL);
