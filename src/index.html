@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Football Analytics</title>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+  <!--  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>-->
+  <link rel='stylesheet' href='css/fontawesome-free-5.11.2/all.css'>
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="sidebar-container">
+  <div class="sidebar-logo">
+    Football Analytics
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header"><label for="country"><i class="fas fa-flag"></i> Country</label></li>
+  </ul>
+  <div class="form-group">
+    <select name="country" id="country" class="form-control">
+    </select>
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header"><label for="competition"><i class="fas fa-trophy"></i> Competition</label></li>
+  </ul>
+  <div class="form-group">
+    <select name="competition" id="competition" class="form-control">
+    </select>
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header"><label for="season"><i class="fas fa-calendar-check"></i> Season</label></li>
+  </ul>
+  <div class="form-group">
+    <select name="season" id="season" class="form-control">
+    </select>
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header"><label for="gender"><i class="fas fa-venus-mars"></i> Gender</label></li>
+  </ul>
+  <div class="form-group">
+    <select name="gender" id="gender" class="form-control">
+    </select>
+  </div>
+  <!--    <li>-->
+  <!--      <a href="#">-->
+  <!--        <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard-->
+  <!--      </a>-->
+  <!--    </li>-->
+  <!--    <li class="header">Another Menu</li>-->
+  <!--    <li>-->
+  <!--      <a href="#">-->
+  <!--        <i class="fa fa-users" aria-hidden="true"></i> Friends-->
+  <!--      </a>-->
+  <!--    </li>-->
+  <!--    <li>-->
+  <!--      <a href="#">-->
+  <!--        <i class="fa fa-cog" aria-hidden="true"></i> Settings-->
+  <!--      </a>-->
+  <!--    </li>-->
+  <!--    <li>-->
+  <!--      <a href="#">-->
+  <!--        <i class="fa fa-info-circle" aria-hidden="true"></i> Information-->
+  <!--      </a>-->
+  <!--    </li>-->
+  <!--  </ul>-->
+</div>
+
+<div class="content-container">
+
+  <div class="container-fluid">
+
+    <!--    Main component for a primary marketing message or call to action-->
+    <div class="jumbotron">
+      <div class="row text-center">
+        <div class="col-md-6">
+          <h3><label for="home_team">Home team</label></h3>
+          <div class="form-group">
+            <select name="home_team" id="home_team" class="form-control">
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <h3><label for="away_team">Away team</label></h3>
+          <div class="form-group">
+            <select name="away_team" id="away_team" class="form-control">
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4><label for="player">Player</label></h4>
+    <div class="form-group">
+      <select name="player" id="player" class="form-control">
+      </select>
+    </div>
+
+
+<!--    <input id="test-button" type="button" value="Refresh">-->
+<!--    <label>-->
+<!--      Player name:-->
+<!--      <input type="text" value="Lionel Andrés Messi Cuccittini">-->
+<!--    </label>-->
+<!--    <label>-->
+<!--      Match id:-->
+<!--      <input type="text" value="266310">-->
+<!--    </label>-->
+<!--    file: 266310.json-->
+
+    <!-- Create a div where the graph will take place -->
+    <div id="heatmap"></div>
+
+  </div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<!-- partial -->
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<!-- specific plugin -->
+<script src="https://d3js.org/d3-contour.v1.min.js"></script>
+<script src="js/index.js"></script>
+<script src="js/dataManager.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
