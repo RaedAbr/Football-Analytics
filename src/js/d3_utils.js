@@ -30,7 +30,7 @@ $("svg").css({
  * @param bandwidth
  * @param valueScale
  */
-function updateD3(url, playerId, bandwidth=10, valueScale=30) {
+function updateD3(url, playerId, bandwidth=10, valueScale=100) {
   d3.json(url, function(data) {
     // Clear svg
     svg.selectAll("g").remove();

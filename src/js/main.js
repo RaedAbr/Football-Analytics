@@ -56,3 +56,6 @@ const
 countryHtmlSelect.resetElement();
 countryHtmlSelect.resetNextElements();
 loadCountries(COMPETITIONS_URL);
+
+// const url = EVENT_URL + "265958.json";
+// updateD3(url, 6758, 10, 100);
