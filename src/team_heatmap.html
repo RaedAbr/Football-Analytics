@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Team heatmap</title>
+  <link rel='stylesheet' href='css/bootstrap-3.3.7.min.css'>
+  <link rel='stylesheet' href='css/fontawesome-free-5.11.2/all.css'>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/team_heatmap.css">
+</head>
+<body>
+<div class="sidebar-container-left">
+  <div class="sidebar-logo">
+    Football Analytics
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header"><label for="country"><i class="fas fa-flag"></i> Country</label></li>
+  </ul>
+  <div class="form-group">
+    <select name="country" id="country" class="form-control">
+    </select>
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header"><label for="competition"><i class="fas fa-trophy"></i> Competition</label></li>
+  </ul>
+  <div class="form-group">
+    <select name="competition" id="competition" class="form-control">
+    </select>
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header"><label for="season"><i class="fas fa-calendar-check"></i> Season</label></li>
+  </ul>
+  <div class="form-group">
+    <select name="season" id="season" class="form-control">
+    </select>
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header"><label for="gender"><i class="fas fa-venus-mars"></i> Gender</label></li>
+  </ul>
+  <div class="form-group">
+    <select name="gender" id="gender" class="form-control">
+    </select>
+  </div>
+</div>
+
+<!--<div class="sidebar-container-right">-->
+<!--  <div class="panel panel-default">-->
+<!--    <div class="panel-heading">Other informations</div>-->
+<!--    <table class="table">-->
+<!--      <tr>-->
+<!--        <td>Date</td>-->
+<!--        <td><span id="match_date">-</span> at <span id="kick_off">-</span></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Week</td>-->
+<!--        <td><span id="match_week">-</span></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Referee</td>-->
+<!--        <td><span id="referee">-</span></td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Stadium</td>-->
+<!--        <td><span id="stadium">-</span>, <span id="stadium-country">-</span></td>-->
+<!--      </tr>-->
+<!--    </table>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="content-container">
+  <div class="container-fluid">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-4">
+          <h3><label for="team">Team</label></h3>
+          <div class="form-group">
+            <select name="team" id="team" class="form-control">
+            </select>
+          </div>
+        </div>
+        <!--        <div class="col-md-4">-->
+        <!--          <h3><label for="away_team">Away team</label></h3>-->
+        <!--          <div class="form-group">-->
+        <!--            <select name="away_team" id="away_team" class="form-control">-->
+        <!--            </select>-->
+        <!--          </div>-->
+        <!--        </div>-->
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div id="won-panel" class="col-md-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Won matches heatmap</div>
+
+          <!--            <table class="table">-->
+          <!--              <tr>-->
+          <!--                <td><strong><span id="home-score">-</span></strong></td>-->
+          <!--                <td>:</td>-->
+          <!--                <td><strong><span id="away-score">-</span></strong></td>-->
+          <!--              </tr>-->
+          <!--            </table>-->
+          <div class="text-center .svg-container" id="won-heatmap"></div>
+        </div>
+      </div>
+      <div id="lost-panel" class="col-md-6">
+        <div class="panel panel-primary panel-lost">
+          <div class="panel-heading">Lost matches heatmap</div>
+
+          <!--            <table class="table">-->
+          <!--              <tr>-->
+          <!--                <td><strong><span id="home-score">-</span></strong></td>-->
+          <!--                <td>:</td>-->
+          <!--                <td><strong><span id="away-score">-</span></strong></td>-->
+          <!--              </tr>-->
+          <!--            </table>-->
+          <div class="text-center .svg-container" id="lost-heatmap"></div>
+        </div>
+      </div>
+
+      <!--    <div class="form-group text-center">-->
+      <!--      <h4><label for="player">Player</label></h4>-->
+      <!--      <select name="player" id="player" class="form-control">-->
+      <!--      </select>-->
+      <!--    </div>-->
+
+      <!-- div where the graph will take place -->
+      <!--      <table>-->
+      <!--        <tr>-->
+      <!--          <td rowspan="2">-->
+      <!--            <div id="heatmap"></div>-->
+      <!--          </td>-->
+      <!--          <td>-->
+      <!--            <label>-->
+      <!--              Bandwidth: <span id="bandwidth-span">10</span>-->
+      <!--              <input type="range" id="bandwidth" min="0" max="20" value="10">-->
+      <!--            </label>-->
+      <!--          </td>-->
+      <!--        </tr>-->
+      <!--        <tr>-->
+      <!--          <td>-->
+      <!--            <label>-->
+      <!--              ValueScale: <span id="valuescale-span">30</span>-->
+      <!--              <input type="range" id="valuescale" min="0" max="1000" value="30">-->
+      <!--            </label>-->
+      <!--          </td>-->
+      <!--        </tr>-->
+      <!--      </table>-->
+    </div>
+
+  </div>
+</div>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<!-- partial -->
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<!-- specific plugin -->
+<script src="https://d3js.org/d3-contour.v1.min.js"></script>
+<!--others-->
+<script src="js/load_data.js"></script>
+<script src="js/d3_team_heatmap.js"></script>
+<script src="js/team_heatmap.js"></script>
+</body>
+</html>
