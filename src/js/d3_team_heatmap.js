@@ -67,24 +67,16 @@ $("svg").css({
  * @param valueScale
  */
 function updateD3(data, bandwidth=10, valueScale=100) {
-  const teams = data.map(event => {return {id: event.team.id}}).distinct("id");
-  console.log(teams);
+  // const teams = data.map(event => {return {id: event.team.id}}).distinct("id");
+  // console.log(teams);
 
   // Clear svg
   wonSvg.selectAll("g").remove();
 
   // define an arrow
-  wonSvg.append("svg:defs").append("svg:marker")
-    .attr("id", "triangle")
-    .attr("refX", 6)
-    .attr("refY", 6)
-    .attr("markerWidth", 30)
-    .attr("markerHeight", 30)
-    .attr("markerUnits","userSpaceOnUse")
-    .attr("orient", "auto")
-    .append("path")
-    .attr("d", "M 0 0 12 6 0 12 3 6")
-    .style("fill", "white");
+  const defs = wonSvg.append("svg:defs");
+  // const redArrowId = defineArrow(defs,"red");
+  const greenArrowId = defineArrow(defs,"green");
 
   const maxX = 120;
   const maxY = 80;
@@ -130,6 +122,18 @@ function updateD3(data, bandwidth=10, valueScale=100) {
   //   .attr("d", d3.geoPath())
   //   .attr("fill", function(d) { return color(d.value * valueScale); });
 
+  // wonSvg.insert("g", "g")
+  //   .selectAll("line")
+  //   .data(data).enter()
+  //   .append("line")
+  //   .attr("x1",  event => x(event.location[0]))
+  //   .attr("y1", event => y(event.location[1]))
+  //   .attr("x2", event => x(event.pass.end_location[0]))
+  //   .attr("y2", event => y(event.pass.end_location[1]))
+  //   .attr("stroke-width", 2)
+  //   .attr("stroke", event => event.team.id === teams[0].id ? "green" : "red")
+  //   .attr("marker-end", event => "url(#" + (event.team.id === teams[0].id ? greenArrowId : redArrowId) + ")");
+
   wonSvg.insert("g", "g")
     .selectAll("line")
     .data(data).enter()
@@ -138,8 +142,23 @@ function updateD3(data, bandwidth=10, valueScale=100) {
     .attr("y1", event => y(event.location[1]))
     .attr("x2", event => x(event.pass.end_location[0]))
     .attr("y2", event => y(event.pass.end_location[1]))
-
     .attr("stroke-width", 2)
-    .attr("stroke", event => event.team.id === teams[0].id ? "white" : "black")
-    .attr("marker-end", "url(#triangle)");
+    .attr("stroke", "green")
+    .attr("marker-end", "url(#" + greenArrowId + ")");
+}
+
+function defineArrow(defs, colorString) {
+  const id = "arrow-" + colorString;
+  defs.append("svg:marker")
+    .attr("id", id)
+    .attr("refX", 6)
+    .attr("refY", 6)
+    .attr("markerWidth", 30)
+    .attr("markerHeight", 30)
+    .attr("markerUnits","userSpaceOnUse")
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M 0 0 12 6 0 12 3 6")
+    .style("fill", colorString);
+  return id
 }

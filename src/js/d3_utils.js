@@ -15,7 +15,7 @@ const svg = d3.select("#heatmap")
         "translate(" + margin.left + "," + margin.top + ")");
 
 $("svg").css({
-  backgroundColor: "green",
+  // backgroundColor: "green",
   backgroundImage: "url(" + imageUrl + ")",
   backgroundRepeat: "no-repeat",
   backgroundSize: width + "px " + height + "px",
