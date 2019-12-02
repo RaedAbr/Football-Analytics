@@ -4,10 +4,11 @@ const NONE = "none";
  * Data URLs
  */
 const
-	COMPETITIONS_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/competitions.json",
-	MATCHES_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/matches/",
-	LINEUP_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/lineups/",
-	EVENT_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/events/";
+	BASE_URL = "https://raw.githubusercontent.com/RaedAbr/open-data/master/data/",
+	COMPETITIONS_URL = BASE_URL + "competitions.json",
+	MATCHES_URL = BASE_URL + "matches/",
+	LINEUP_URL = BASE_URL + "lineups/",
+	EVENT_URL = BASE_URL + "events/";
 
 /**
  * html objects' ids
