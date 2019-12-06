@@ -42,18 +42,18 @@ const
 /**
  * main routine
  */
-const url = EVENT_URL + "265958.json";
-fetch(url)
-	.then(response => {return response.json()})
-	.then(data => {
-		data = data.filter(event => (event.location && event.player) &&
-			// event.player.id === 6758 &&
-			event.team.id === 217 && // 217 => Barcelona
-			(event.position.id >= 9 && event.position.id <= 20) && // [9..20] => Midfield positions
-			event.type.id === 30)/*.slice(0, 2)*/; // 30 => "pass"
-		console.log(data);
-		updateD3(data, 1, 200);
-	});
-// countryHtmlSelect.resetElement();
-// countryHtmlSelect.resetNextElements();
-// loadCountries(COMPETITIONS_URL);
+// const url = EVENT_URL + "265958.json";
+// fetch(url)
+// 	.then(response => {return response.json()})
+// 	.then(data => {
+// 		data = data.filter(event => (event.location && event.player) &&
+// 			// event.player.id === 6758 &&
+// 			event.team.id === 217 && // 217 => Barcelona
+// 			(event.position.id >= 9 && event.position.id <= 20) && // [9..20] => Midfield positions
+// 			event.type.id === 30)/*.slice(0, 2)*/; // 30 => "pass"
+// 		console.log(data);
+// 		updateD3(data, 1, 200);
+// 	});
+countryHtmlSelect.resetElement();
+countryHtmlSelect.resetNextElements();
+loadCountries(COMPETITIONS_URL);

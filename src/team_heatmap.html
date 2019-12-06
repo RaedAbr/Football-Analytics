@@ -90,71 +90,61 @@
     </div>
 
     <div class="container-fluid">
-      <div id="won-panel" class="col-md-6">
-        <div class="panel panel-primary">
-          <div class="panel-heading">Won matches heatmap</div>
+      <div id="matches-container">
+<!--        <div class="row text-center">-->
+<!--          <div class="col-md-4">-->
+<!--            <div class="panel panel-default">-->
+<!--              <div class="panel-heading">Final Score</div>-->
 
-          <!--            <table class="table">-->
-          <!--              <tr>-->
-          <!--                <td><strong><span id="home-score">-</span></strong></td>-->
-          <!--                <td>:</td>-->
-          <!--                <td><strong><span id="away-score">-</span></strong></td>-->
-          <!--              </tr>-->
-          <!--            </table>-->
-          <div class="text-center .svg-container" id="won-heatmap"></div>
-        </div>
+<!--              <table class="table">-->
+<!--                <tr>-->
+<!--                  <td><strong><span id="home-score">-</span></strong></td>-->
+<!--                  <td>:</td>-->
+<!--                  <td><strong><span id="away-score">-</span></strong></td>-->
+<!--                </tr>-->
+<!--              </table>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--          <div id="won-panel" class="col-md-6">-->
+<!--            <div class="panel panel-default">-->
+<!--              <div class="panel-heading" id="selected-team-name">Won matches heatmap</div>-->
+
+<!--              &lt;!&ndash;            <table class="table">&ndash;&gt;-->
+<!--              &lt;!&ndash;              <tr>&ndash;&gt;-->
+<!--              &lt;!&ndash;                <td><strong><span id="home-score">-</span></strong></td>&ndash;&gt;-->
+<!--              &lt;!&ndash;                <td>:</td>&ndash;&gt;-->
+<!--              &lt;!&ndash;                <td><strong><span id="away-score">-</span></strong></td>&ndash;&gt;-->
+<!--              &lt;!&ndash;              </tr>&ndash;&gt;-->
+<!--              &lt;!&ndash;            </table>&ndash;&gt;-->
+<!--              <div class="text-center .svg-container" id="won-heatmap"></div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div id="lost-panel" class="col-md-6">-->
+<!--            <div class="panel panel-default">-->
+<!--              <div class="panel-heading" id="other-team-name">Lost matches heatmap</div>-->
+
+<!--              &lt;!&ndash;            <table class="table">&ndash;&gt;-->
+<!--              &lt;!&ndash;              <tr>&ndash;&gt;-->
+<!--              &lt;!&ndash;                <td><strong><span id="home-score">-</span></strong></td>&ndash;&gt;-->
+<!--              &lt;!&ndash;                <td>:</td>&ndash;&gt;-->
+<!--              &lt;!&ndash;                <td><strong><span id="away-score">-</span></strong></td>&ndash;&gt;-->
+<!--              &lt;!&ndash;              </tr>&ndash;&gt;-->
+<!--              &lt;!&ndash;            </table>&ndash;&gt;-->
+<!--              <div class="text-center .svg-container" id="lost-heatmap"></div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
-      <div id="lost-panel" class="col-md-6">
-        <div class="panel panel-primary panel-lost">
-          <div class="panel-heading">Lost matches heatmap</div>
-
-          <!--            <table class="table">-->
-          <!--              <tr>-->
-          <!--                <td><strong><span id="home-score">-</span></strong></td>-->
-          <!--                <td>:</td>-->
-          <!--                <td><strong><span id="away-score">-</span></strong></td>-->
-          <!--              </tr>-->
-          <!--            </table>-->
-          <div class="text-center .svg-container" id="lost-heatmap"></div>
-        </div>
-      </div>
-
-      <!--    <div class="form-group text-center">-->
-      <!--      <h4><label for="player">Player</label></h4>-->
-      <!--      <select name="player" id="player" class="form-control">-->
-      <!--      </select>-->
-      <!--    </div>-->
-
-      <!-- div where the graph will take place -->
-      <!--      <table>-->
-      <!--        <tr>-->
-      <!--          <td rowspan="2">-->
-      <!--            <div id="heatmap"></div>-->
-      <!--          </td>-->
-      <!--          <td>-->
-      <!--            <label>-->
-      <!--              Bandwidth: <span id="bandwidth-span">10</span>-->
-      <!--              <input type="range" id="bandwidth" min="0" max="20" value="10">-->
-      <!--            </label>-->
-      <!--          </td>-->
-      <!--        </tr>-->
-      <!--        <tr>-->
-      <!--          <td>-->
-      <!--            <label>-->
-      <!--              ValueScale: <span id="valuescale-span">30</span>-->
-      <!--              <input type="range" id="valuescale" min="0" max="1000" value="30">-->
-      <!--            </label>-->
-      <!--          </td>-->
-      <!--        </tr>-->
-      <!--      </table>-->
     </div>
 
   </div>
 </div>
 <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 <!-- partial -->
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
 <!-- Load d3.js -->
@@ -162,7 +152,7 @@
 <!-- specific plugin -->
 <script src="https://d3js.org/d3-contour.v1.min.js"></script>
 <!--others-->
-<script src="js/load_data.js"></script>
+<script src="js/team_heatmap_load_data.js"></script>
 <script src="js/d3_team_heatmap.js"></script>
 <script src="js/team_heatmap.js"></script>
 </body>
