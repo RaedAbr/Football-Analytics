@@ -17,7 +17,7 @@ const
 	COUNTRY_HTML_ID = "country",
 	COMPETITION_HTML_ID = "competition",
 	SEASON_HTML_ID = "season",
-	GENDER_HTML_ID = "gender",
+	// GENDER_HTML_ID = "gender",
 	TEAM_HTML_ID = "team";
 
 /**
@@ -27,9 +27,9 @@ const
 	countryHtmlSelect = $("#" + COUNTRY_HTML_ID)[0],
 	competitionHtmlSelect = $("#" + COMPETITION_HTML_ID)[0],
 	seasonHtmlSelect = $("#" + SEASON_HTML_ID)[0],
-	genderHtmlSelect = $("#" + GENDER_HTML_ID)[0],
+	// genderHtmlSelect = $("#" + GENDER_HTML_ID)[0],
 	teamHtmlSelect = $("#" + TEAM_HTML_ID)[0],
-	htmlSelectElements = [countryHtmlSelect, competitionHtmlSelect, seasonHtmlSelect, genderHtmlSelect,
+	htmlSelectElements = [countryHtmlSelect, competitionHtmlSelect, seasonHtmlSelect, /*genderHtmlSelect,*/
 		teamHtmlSelect];
 
 /**
@@ -46,8 +46,8 @@ const
 // fetch(url)
 // 	.then(response => {return response.json()})
 // 	.then(data => {
-// 		data = data.filter(event => (event.location && event.player) &&
-// 			// event.player.id === 6758 &&
+// 		data = data.filter(event => (event.location && event.by_player) &&
+// 			// event.by_player.id === 6758 &&
 // 			event.team.id === 217 && // 217 => Barcelona
 // 			(event.position.id >= 9 && event.position.id <= 20) && // [9..20] => Midfield positions
 // 			event.type.id === 30)/*.slice(0, 2)*/; // 30 => "pass"

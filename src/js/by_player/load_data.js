@@ -19,7 +19,8 @@ HTMLSelectElement.prototype.resetElement = function() {
  */
 HTMLSelectElement.prototype.resetNextElements = function() {
 	const nextHTMLSelectElements = htmlSelectElements.slice(htmlSelectElements.indexOf(this) + 1);
-	nextHTMLSelectElements.flat(1).forEach(el => el.resetElement());
+	nextHTMLSelectElements.flat(1).forEach(el => el.resetElement())
+	spanElements.forEach(el => el.html("-"));
 };
 
 /**
@@ -93,7 +94,12 @@ function loadCompetitions(data) {
 		.sort((a, b) => a.competition_name.localeCompare(b.competition_name));
 	console.log(distinctByCompetition);
 
-	distinctByCompetition.forEach(competition => competitionHtmlSelect.append(new Option(competition.competition_name, competition.competition_id)));
+
+	distinctByCompetition.forEach(competition =>
+		competitionHtmlSelect.append(new Option(
+			competition.competition_name + " (" + competition.competition_gender + ")",
+			competition.competition_id
+		)));
 	$(competitionHtmlSelect).prop( "disabled", false );
 
 	// event
@@ -130,8 +136,8 @@ function loadSeasons(data) {
 		seasonHtmlSelect.resetNextElements();
 		const seasonId = Number($(this).val());
 		if (seasonId) {
-			const competitionsBySeason = data.filter(competition => competition.season_id === seasonId);
-			loadGender(competitionsBySeason);
+			const competitionsBySeason = data.find(competition => competition.season_id === seasonId);
+			loadHomeTeams(competitionsBySeason);
 		}
 	});
 }
@@ -140,69 +146,60 @@ function loadSeasons(data) {
  * Get gender names and ids in corresponding htmlSelectElement
  * @param data Array containing competitions
  */
-function loadGender(data) {
-	console.log(data);
-
-	const distinctByGender = data.distinct("competition_gender")
-		.sort((a, b) => a.competition_gender.localeCompare(b.competition_gender));
-	console.log(distinctByGender);
-
-	distinctByGender.forEach(competition => genderHtmlSelect.append(new Option(competition.competition_gender, competition.competition_gender)));
-	$(genderHtmlSelect).prop( "disabled", false );
-
-	// event
-	$(genderHtmlSelect).unbind("change");
-	$(genderHtmlSelect).change(function (e) {
-		e.stopImmediatePropagation();
-		genderHtmlSelect.resetNextElements();
-		if ($(this).val() !== NONE) {
-			const competitionsByGender = data.find(competition => competition.competition_gender === $(this).val());
-			loadTeams(competitionsByGender);
-		}
-	});
-}
+// function loadGender(data) {
+// 	console.log(data);
+//
+// 	const distinctByGender = data.distinct("competition_gender")
+// 		.sort((a, b) => a.competition_gender.localeCompare(b.competition_gender));
+// 	console.log(distinctByGender);
+//
+// 	distinctByGender.forEach(competition => genderHtmlSelect.append(new Option(competition.competition_gender, competition.competition_gender)));
+// 	$(genderHtmlSelect).prop( "disabled", false );
+//
+// 	// event
+// 	$(genderHtmlSelect).unbind("change");
+// 	$(genderHtmlSelect).change(function (e) {
+// 		e.stopImmediatePropagation();
+// 		genderHtmlSelect.resetNextElements();
+// 		if ($(this).val() !== NONE) {
+// 			const competitionsByGender = data.find(competition => competition.competition_gender === $(this).val());
+// 			loadHomeTeams(competitionsByGender);
+// 		}
+// 	});
+// }
 
 /**
  * Load all maches in a competition and get home teams names and ids in corresponding htmlSelectElement
  * @param competition Specific competitions
  */
-function loadTeams(competition) {
+function loadHomeTeams(competition) {
 	console.log(competition);
 	const url = MATCHES_URL +	competition.competition_id + "/" + competition.season_id + ".json";
-	console.log("loadTeams");
 	console.log(url);
 	loadJSON(url)
 		.then(matches => {
 			console.log(matches);
 
-			const distinctTeams1 = matches.map(match => {
+			const distinctHomeTeams = matches.map(match => {
 				return {
 					team_id: match.home_team.home_team_id,
 					team_name: match.home_team.home_team_name
 				}
-			});
-			const distinctTeams2 = matches.map(match => {
-				return {
-					team_id: match.away_team.away_team_id,
-					team_name: match.away_team.away_team_name
-				}
-			});
-			const distinctTeams = [...distinctTeams1, ...distinctTeams2].distinct("team_id")
+			}).distinct("team_id")
 				.sort((a, b) => a.team_name.localeCompare(b.team_name));
-			console.log(distinctTeams);
+			console.log(distinctHomeTeams);
 
-			distinctTeams.forEach(team => teamHtmlSelect.append(new Option(team.team_name, team.team_id)));
-			$(teamHtmlSelect).prop( "disabled", false );
+			distinctHomeTeams.forEach(team => homeTeamHtmlSelect.append(new Option(team.team_name, team.team_id)));
+			$(homeTeamHtmlSelect).prop( "disabled", false );
 
 			// event
-			$(teamHtmlSelect).unbind("change");
-			$(teamHtmlSelect).change(function () {
-				teamHtmlSelect.resetNextElements();
-				const teamId = Number($(this).val());
-				if (teamId) {
-					const matchesTeam = matches.filter(match => match.home_team.home_team_id === teamId ||
-						match.away_team.away_team_id === teamId);
-					displayHeatmaps(matchesTeam, distinctTeams);
+			$(homeTeamHtmlSelect).unbind("change");
+			$(homeTeamHtmlSelect).change(function () {
+				homeTeamHtmlSelect.resetNextElements();
+				const homeTeamId = Number($(this).val());
+				if (homeTeamId) {
+					const matchesForHomeTeam = matches.filter(match => match.home_team.home_team_id === homeTeamId);
+					loadAwayTeams(matchesForHomeTeam);
 				}
 			})
 		});
@@ -212,78 +209,76 @@ function loadTeams(competition) {
  * Get away teams names and ids on specific matches in corresponding htmlSelectElement
  * @param matches Specific matches
  */
-function displayHeatmaps(matches, distinctTeams) {
+function loadAwayTeams(matches) {
 	console.log(matches);
-	$("#matches-container").empty();
-	matches.forEach(match =>
-	{
-		$("#matches-container").append(`
-				<div class="row text-center">
-          <div class="col-md-4">
-            <div class="panel panel-default">
-              <div class="panel-heading">Final Score</div>
-
-              <table class="table">
-                <tr>
-                  <td><strong><span id="selected-score-` + match.match_id + `">-</span></strong></td>
-                  <td>:</td>
-                  <td><strong><span id="other-score-` + match.match_id + `">-</span></strong></td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="panel panel-default">
-              <div class="panel-heading" id="selected-team-name-` + match.match_id + `">Won matches heatmap</div>
-              <div class="text-center .svg-container" id="heatmap1-` + match.match_id + `"></div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="panel panel-default">
-              <div class="panel-heading" id="other-team-name-` + match.match_id + `">Lost matches heatmap</div>
-              <div class="text-center .svg-container" id="heatmap2-` + match.match_id + `"></div>
-            </div>
-          </div>
-        </div>`
-		);
-
-		$("#selected-team-name-" + match.match_id).html(distinctTeams.find(m => m.team_id == $(teamHtmlSelect).val()).team_name);
-		let otherTeam = "";
-		let otherTeamId;
-		let scoreSelectedTeam;
-		let scoreOtherTeam;
-		if ($(teamHtmlSelect).val() == match.home_team.home_team_id) {
-			otherTeam = match.away_team.away_team_name;
-			otherTeamId = match.away_team.away_team_id;
-			scoreSelectedTeam = match.home_score;
-			scoreOtherTeam = match.away_score;
-		} else {
-			otherTeam = match.home_team.home_team_name;
-			otherTeamId = match.home_team.home_team_id;
-			scoreSelectedTeam = match.away_score;
-			scoreOtherTeam = match.home_score;
+	const distinctAwayTeams = matches.map(match => {
+		return {
+			team_id: match.away_team.away_team_id,
+			team_name: match.away_team.away_team_name
 		}
-		$("#other-team-name-" + match.match_id).html(otherTeam);
+	}).distinct("team_id")
+		.sort((a, b) => a.team_name.localeCompare(b.team_name));
+	console.log(distinctAwayTeams);
 
-		$("#selected-score-" + match.match_id).html(scoreSelectedTeam);
-		$("#other-score-" + match.match_id).html(scoreOtherTeam);
+	distinctAwayTeams.forEach(team => awayTeamHtmlSelect.append(new Option(team.team_name, team.team_id)));
+	$(awayTeamHtmlSelect).prop( "disabled", false );
 
-		const url = EVENT_URL + match.match_id + ".json";
-		loadJSON(url)
-			.then(events => {
-				const data1 = events.filter(
-					event => event.team.id == $(teamHtmlSelect).val() &&
-						event.position && event.location &&
-						(event.position.id >= 9 && event.position.id <= 20) // [9..20] => Midfield positions);
-				);
-				const data2 = events.filter(event => event.team.id == otherTeamId &&
-					event.position && event.location &&
-					(event.position.id >= 9 && event.position.id <= 20));
-				loadD3(match.match_id, data1, data2);
-			});
-	});
+	// event
+	$(awayTeamHtmlSelect).unbind("change");
+	$(awayTeamHtmlSelect).change(function () {
+		awayTeamHtmlSelect.resetNextElements();
+		const awayTeamId = Number($(this).val());
+		if (awayTeamId) {
+			const match = matches.find(match =>
+				match.home_team.home_team_id === Number($(homeTeamHtmlSelect).val()) &&
+				match.away_team.away_team_id === awayTeamId);
+			console.log("Selected match:");
+			console.log(match);
+			updateInformations(match);
+			loadPlayers(match);
+		}
+	})
+}
+
+/**
+ * Load all players in specific match and get them in corresponding htmlSelectElement
+ * @param match Specific match
+ */
+function loadPlayers(match) {
+	console.log(match);
+	loadJSON(LINEUP_URL + match.match_id + ".json")
+		.then(lineup => {
+			const homeLineup = lineup.find(team => team.team_id === match.home_team.home_team_id);
+			console.log("home lineup");
+			console.log(homeLineup);
+			let optgroup = $('<optgroup/>')
+				.attr('label', homeLineup.team_name)
+				.appendTo($(playerHtmlSelect));
+			const homePlayers = homeLineup.lineup;
+			homePlayers.sort((a, b) => a.player_name.localeCompare(b.player_name))
+				.forEach(player => optgroup.append(new Option(player.player_name, player.player_id)));
+
+			const awayLineup = lineup.find(team => team.team_id === match.away_team.away_team_id);
+			console.log("away lineup");
+			console.log(awayLineup);
+			optgroup = $('<optgroup/>')
+				.attr('label', awayLineup.team_name)
+				.appendTo($(playerHtmlSelect));
+			const awayPlayers = awayLineup.lineup;
+			awayPlayers.sort((a, b) => a.player_name.localeCompare(b.player_name))
+				.forEach(player => optgroup.append(new Option(player.player_name, player.player_id)));
+
+			$(playerHtmlSelect).prop( "disabled", false );
+
+			const url = EVENT_URL + match.match_id + ".json";
+			$(playerHtmlSelect).unbind("change");
+			$(playerHtmlSelect).change(function () {
+				const playerId = Number($(this).val());
+				if (playerId) {
+					updateD3(url, playerId);
+				}
+			})
+		});
 }
 
 /**

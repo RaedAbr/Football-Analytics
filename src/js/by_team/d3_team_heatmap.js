@@ -40,7 +40,7 @@ function loadD3(matchId, data1, data2) {
   updateD3(data2, heatmap2Svg);
 
   /**
-   * Update svg element with new player event
+   * Update svg element with new by_player event
    * @param url Url of the match event
    * @param playerId Player id
    * @param bandwidth
