@@ -262,11 +262,18 @@ function displayHeatmaps(matches, selectedTeam) {
 			otherLeg = "home";
 		}
 
-		$("#selected-name-" + match.match_id).html(selectedTeam.team_name);
-		$("#other-name-" + match.match_id).html(otherTeam);
+		let colorScoreSelected = "black", colorScoreOther = "black";
+		if (scoreSelectedTeam > scoreOtherTeam) {
+			colorScoreSelected = "green";
+		} else {
+			colorScoreOther = "green";
+		}
 
-		$("#selected-score-" + match.match_id).html(scoreSelectedTeam);
-		$("#other-score-" + match.match_id).html(scoreOtherTeam);
+		$("#selected-name-" + match.match_id).html(selectedTeam.team_name).css("color", colorScoreSelected);
+		$("#other-name-" + match.match_id).html(otherTeam).css("color", colorScoreOther);
+
+		$("#selected-score-" + match.match_id).html(scoreSelectedTeam).css("color", colorScoreSelected);
+		$("#other-score-" + match.match_id).html(scoreOtherTeam).css("color", colorScoreOther);
 
 		$("#selected-leg-" + match.match_id).html(selectedLeg);
 		$("#other-leg-" + match.match_id).html(otherLeg);
@@ -311,6 +318,13 @@ function displayHeatmaps(matches, selectedTeam) {
 						</tr>
 					`);
 				});
+				$("#table-" + match.match_id).append(`
+					<tr>
+						<td>` + stats.reduce((acc, stat) => acc + stat.team1Stat, 0) + `</td>
+						<td>Total</td>
+						<td>` + stats.reduce((acc, stat) => acc + stat.team2Stat, 0) + `</td>
+					</tr>
+				`);
 
 				return dataArray;
 			})
