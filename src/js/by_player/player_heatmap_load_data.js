@@ -22,6 +22,8 @@ HTMLSelectElement.prototype.resetNextElements = function() {
 	nextHTMLSelectElements.flat(1).forEach(el => el.resetElement())
 	spanElements.forEach(el => el.html("-"));
 	$("#heatmap > svg").empty();
+	$("#home-formation").empty();
+	$("#away-formation").empty();
 };
 
 /**
@@ -247,39 +249,99 @@ function loadAwayTeams(matches) {
  */
 function loadPlayers(match) {
 	console.log(match);
-	loadJSON(LINEUP_URL + match.match_id + ".json")
-		.then(lineup => {
-			const homeLineup = lineup.find(team => team.team_id === match.home_team.home_team_id);
-			console.log("home lineup");
-			console.log(homeLineup);
-			let optgroup = $('<optgroup/>')
-				.attr('label', homeLineup.team_name)
-				.appendTo($(playerHtmlSelect));
-			const homePlayers = homeLineup.lineup;
-			homePlayers.sort((a, b) => a.player_name.localeCompare(b.player_name))
-				.forEach(player => optgroup.append(new Option(player.player_name, player.player_id)));
+	loadJSON(EVENT_URL + match.match_id + ".json")
+		.then(events => {
+			// starting event (id = 35): Indicates the players in the starting 11, their position and the team’s formation.
+			const startingEvent = events.filter(event => event.type.id === 35);
+			console.log("starting event");
+			console.log(startingEvent);
+			let homeTeamInfo, awayTeamInfo;
+			if (startingEvent[0].team.id === match.home_team.home_team_id) {
+				homeTeamInfo = startingEvent[0];
+				awayTeamInfo = startingEvent[1];
+			} else {
+				homeTeamInfo = startingEvent[1];
+				awayTeamInfo = startingEvent[0];
+			}
+			const homeFormation = homeTeamInfo.tactics.formation.toString().split("")
+				.reduce((acc, char) => acc + char + "-", "").slice(0, -1);
+			$("#home-formation").html(homeFormation);
+			const awayFormation = awayTeamInfo.tactics.formation.toString().split("")
+				.reduce((acc, char) => acc + char + "-", "").slice(0, -1);
+			$("#away-formation").html(awayFormation);
 
-			const awayLineup = lineup.find(team => team.team_id === match.away_team.away_team_id);
-			console.log("away lineup");
-			console.log(awayLineup);
-			optgroup = $('<optgroup/>')
-				.attr('label', awayLineup.team_name)
-				.appendTo($(playerHtmlSelect));
-			const awayPlayers = awayLineup.lineup;
-			awayPlayers.sort((a, b) => a.player_name.localeCompare(b.player_name))
-				.forEach(player => optgroup.append(new Option(player.player_name, player.player_id)));
+			[homeTeamInfo, awayTeamInfo].forEach(teamInfo => {
+				let optgroup = $('<optgroup/>')
+					.attr('label', teamInfo.team.name)
+					.appendTo($(playerHtmlSelect));
+				const players = teamInfo.tactics.lineup;
+
+				function compare( a, b ) {
+					if ( a.position.id < b.position.id ){
+						return -1;
+					}
+					if ( a.position.id > b.position.id ){
+						return 1;
+					}
+					return 0;
+				}
+				console.log(players);
+				console.log(players.sort(compare));
+				players.sort(compare)
+					.forEach(player =>  {
+						const option = new Option(
+							player.jersey_number + " - " + player.player.name + " (" + POSITIONS_GUIDE[player.position.id].abbreviation + ")",
+							player.player.id
+						);
+						$(option).attr("data-toggle", "tooltip")
+							.attr("title", POSITIONS_GUIDE[player.position.id].name);
+						optgroup.append(option);
+					});
+			});
 
 			$(playerHtmlSelect).prop( "disabled", false );
 
-			const url = EVENT_URL + match.match_id + ".json";
 			$(playerHtmlSelect).unbind("change");
 			$(playerHtmlSelect).change(function () {
 				const playerId = Number($(this).val());
 				if (playerId) {
-					updateD3(url, playerId);
+					updateD3(events, playerId);
 				}
 			})
 		});
+	// loadJSON(LINEUP_URL + match.match_id + ".json")
+	// 	.then(lineup => {
+	// 		const homeLineup = lineup.find(team => team.team_id === match.home_team.home_team_id);
+	// 		console.log("home lineup");
+	// 		console.log(homeLineup);
+	// 		let optgroup = $('<optgroup/>')
+	// 			.attr('label', homeLineup.team_name)
+	// 			.appendTo($(playerHtmlSelect));
+	// 		const homePlayers = homeLineup.lineup;
+	// 		homePlayers.sort((a, b) => a.player_name.localeCompare(b.player_name))
+	// 			.forEach(player => optgroup.append(new Option(player.player_name, player.player_id)));
+	//
+	// 		const awayLineup = lineup.find(team => team.team_id === match.away_team.away_team_id);
+	// 		console.log("away lineup");
+	// 		console.log(awayLineup);
+	// 		optgroup = $('<optgroup/>')
+	// 			.attr('label', awayLineup.team_name)
+	// 			.appendTo($(playerHtmlSelect));
+	// 		const awayPlayers = awayLineup.lineup;
+	// 		awayPlayers.sort((a, b) => a.player_name.localeCompare(b.player_name))
+	// 			.forEach(player => optgroup.append(new Option(player.player_name, player.player_id)));
+	//
+	// 		$(playerHtmlSelect).prop( "disabled", false );
+	//
+	// 		const url = EVENT_URL + match.match_id + ".json";
+	// 		$(playerHtmlSelect).unbind("change");
+	// 		$(playerHtmlSelect).change(function () {
+	// 			const playerId = Number($(this).val());
+	// 			if (playerId) {
+	// 				updateD3(url, playerId);
+	// 			}
+	// 		})
+	// 	});
 }
 
 /**
