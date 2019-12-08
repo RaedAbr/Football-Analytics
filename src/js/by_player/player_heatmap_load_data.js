@@ -21,6 +21,7 @@ HTMLSelectElement.prototype.resetNextElements = function() {
 	const nextHTMLSelectElements = htmlSelectElements.slice(htmlSelectElements.indexOf(this) + 1);
 	nextHTMLSelectElements.flat(1).forEach(el => el.resetElement())
 	spanElements.forEach(el => el.html("-"));
+	$("#heatmap > svg").empty();
 };
 
 /**
@@ -94,7 +95,12 @@ function loadCompetitions(data) {
 		.sort((a, b) => a.competition_name.localeCompare(b.competition_name));
 	console.log(distinctByCompetition);
 
-	distinctByCompetition.forEach(competition => competitionHtmlSelect.append(new Option(competition.competition_name, competition.competition_id)));
+
+	distinctByCompetition.forEach(competition =>
+		competitionHtmlSelect.append(new Option(
+			competition.competition_name + " (" + competition.competition_gender + ")",
+			competition.competition_id
+		)));
 	$(competitionHtmlSelect).prop( "disabled", false );
 
 	// event
@@ -131,8 +137,8 @@ function loadSeasons(data) {
 		seasonHtmlSelect.resetNextElements();
 		const seasonId = Number($(this).val());
 		if (seasonId) {
-			const competitionsBySeason = data.filter(competition => competition.season_id === seasonId);
-			loadGender(competitionsBySeason);
+			const competitionsBySeason = data.find(competition => competition.season_id === seasonId);
+			loadHomeTeams(competitionsBySeason);
 		}
 	});
 }
@@ -141,27 +147,27 @@ function loadSeasons(data) {
  * Get gender names and ids in corresponding htmlSelectElement
  * @param data Array containing competitions
  */
-function loadGender(data) {
-	console.log(data);
-
-	const distinctByGender = data.distinct("competition_gender")
-		.sort((a, b) => a.competition_gender.localeCompare(b.competition_gender));
-	console.log(distinctByGender);
-
-	distinctByGender.forEach(competition => genderHtmlSelect.append(new Option(competition.competition_gender, competition.competition_gender)));
-	$(genderHtmlSelect).prop( "disabled", false );
-
-	// event
-	$(genderHtmlSelect).unbind("change");
-	$(genderHtmlSelect).change(function (e) {
-		e.stopImmediatePropagation();
-		genderHtmlSelect.resetNextElements();
-		if ($(this).val() !== NONE) {
-			const competitionsByGender = data.find(competition => competition.competition_gender === $(this).val());
-			loadHomeTeams(competitionsByGender);
-		}
-	});
-}
+// function loadGender(data) {
+// 	console.log(data);
+//
+// 	const distinctByGender = data.distinct("competition_gender")
+// 		.sort((a, b) => a.competition_gender.localeCompare(b.competition_gender));
+// 	console.log(distinctByGender);
+//
+// 	distinctByGender.forEach(competition => genderHtmlSelect.append(new Option(competition.competition_gender, competition.competition_gender)));
+// 	$(genderHtmlSelect).prop( "disabled", false );
+//
+// 	// event
+// 	$(genderHtmlSelect).unbind("change");
+// 	$(genderHtmlSelect).change(function (e) {
+// 		e.stopImmediatePropagation();
+// 		genderHtmlSelect.resetNextElements();
+// 		if ($(this).val() !== NONE) {
+// 			const competitionsByGender = data.find(competition => competition.competition_gender === $(this).val());
+// 			loadHomeTeams(competitionsByGender);
+// 		}
+// 	});
+// }
 
 /**
  * Load all maches in a competition and get home teams names and ids in corresponding htmlSelectElement

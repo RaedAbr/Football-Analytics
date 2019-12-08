@@ -1,0 +1,36 @@
+.content-container {
+  padding-right: 0;
+}
+
+.container-fluid {
+  padding-top: 20px;
+}
+
+.panel-primary {
+  margin-top: 0;
+}
+
+.panel-lost>.panel-heading {
+  background-color: #b73333;
+  border-color: #b73333;
+}
+
+.panel-lost {
+  border-color: #b73333;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content {
+    display: inline-block;
+}
+
+.col-xs-2.stats, .col-xs-5.heatmap {
+  padding: 0;
+}

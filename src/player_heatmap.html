@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Football Analytics</title>
-  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+  <title>Player heatmap</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel='stylesheet' href='css/fontawesome-free-5.11.2/all.css'>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -32,13 +37,6 @@
   </ul>
   <div class="form-group">
     <select name="season" id="season" class="form-control">
-    </select>
-  </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="gender"><i class="fas fa-venus-mars"></i> Gender</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="gender" id="gender" class="form-control">
     </select>
   </div>
 </div>
@@ -101,53 +99,34 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group text-center">
       <h4><label for="player">Player</label></h4>
       <select name="player" id="player" class="form-control">
       </select>
     </div>
 
     <div class="container-fluid">
-      <!-- div where the graph will take place -->
-      <div class="text-center" id="heatmap"></div>
-      <!--      <table>-->
-      <!--        <tr>-->
-      <!--          <td rowspan="2">-->
-      <!--            <div id="heatmap"></div>-->
-      <!--          </td>-->
-      <!--          <td>-->
-      <!--            <label>-->
-      <!--              Bandwidth: <span id="bandwidth-span">10</span>-->
-      <!--              <input type="range" id="bandwidth" min="0" max="20" value="10">-->
-      <!--            </label>-->
-      <!--          </td>-->
-      <!--        </tr>-->
-      <!--        <tr>-->
-      <!--          <td>-->
-      <!--            <label>-->
-      <!--              ValueScale: <span id="valuescale-span">30</span>-->
-      <!--              <input type="range" id="valuescale" min="0" max="1000" value="30">-->
-      <!--            </label>-->
-      <!--          </td>-->
-      <!--        </tr>-->
-      <!--      </table>-->
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="text-center" id="heatmap">
+            <div class="text-left attack-arrow">
+              <span style="font-size: 30px">&#8680;</span>
+              <span style="position: relative; top: -4px;">Attack</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
 </div>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-<!-- partial -->
-<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 <!-- specific plugin -->
 <script src="https://d3js.org/d3-contour.v1.min.js"></script>
 <!--others-->
-<script src="js/d3_utils.js"></script>
-<script src="js/load_data.js"></script>
-<script src="js/main.js"></script>
+<script src="js/by_player/d3_player_heatmap.js"></script>
+<script src="js/by_player/player_heatmap_load_data.js"></script>
+<script src="js/by_player/player_heatmap.js"></script>
 </body>
 </html>

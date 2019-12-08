@@ -100,7 +100,12 @@
 }
 
 .container-fluid .jumbotron {
-  padding: 0;
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.container-fluid:first-child {
+  padding-top: 0;
 }
 
 .jumbotron {
@@ -109,6 +114,30 @@
 
 .panel-primary {
   margin-top: 20px;
+}
+
+.final-score > .panel-heading {
+  padding: 0;
+}
+
+.panel.final-score {
+  margin: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+hr {
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 0;
+  border-top: 1px solid #afafaf;
+}
+
+.attack-arrow {
+  position: relative;
+  top: -26px;
+  margin-bottom: -41px;
+  left: 11px;
 }
 
 svg {

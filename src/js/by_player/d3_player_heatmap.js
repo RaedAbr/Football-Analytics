@@ -1,42 +1,53 @@
 const imageUrl = "img/field.jpg";
 
 // set the dimensions and margins of the graph
-const margin = {top: 20, right: 20, bottom: 20, left: 20},
-  width = 450 - margin.left - margin.right,
-  height = 300 - margin.top - margin.bottom;
+// const margin = {top: 20, right: 20, bottom: 20, left: 20},
+//     width = 450 - margin.left - margin.right,
+//     height = 300 - margin.top - margin.bottom;
+const
+  defaultWidth = 672,
+  defaultHeight = 442;
 
 // append the svg object to the body of the page
+// const svg = d3.select("#heatmap")
+//     .append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+//     .append("g")
+//     .attr("transform",
+//         "translate(" + margin.left + "," + margin.top + ")");
+
 const svg = d3.select("#heatmap")
   .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform",
-    "translate(" + margin.left + "," + margin.top + ")");
+  .attr("preserveAspectRatio", "xMinYMin meet")
+  .attr("viewBox", "0 0 " + defaultWidth + " " + defaultHeight)
+  .classed("svg-content", true);
 
 $("svg").css({
-  backgroundColor: "green",
+  // backgroundColor: "green",
   backgroundImage: "url(" + imageUrl + ")",
   backgroundRepeat: "no-repeat",
-  backgroundSize: width + "px " + height + "px",
-  backgroundPositionX: margin.left,
-  backgroundPositionY: margin.top
+  backgroundSize: "contain"
+  // backgroundSize: width + "px " + height + "px",
+  // backgroundPositionX: margin.left,
+  // backgroundPositionY: margin.top
 });
 
 /**
- * Update svg element with new player event
+ * Update svg element with new by_player event
  * @param url Url of the match event
  * @param playerId Player id
  * @param bandwidth
  * @param valueScale
  */
-function updateD3(url, playerId, bandwidth=10, valueScale=30) {
+function updateD3(url, playerId, bandwidth=10, valueScale=100) {
   d3.json(url, function(data) {
     // Clear svg
     svg.selectAll("g").remove();
 
     data = data.filter(event => event.location && event.player)
       .filter(event => event.player.id === playerId);
+    console.log(data);
 
     const maxX = 120;
     const maxY = 80;
@@ -44,7 +55,7 @@ function updateD3(url, playerId, bandwidth=10, valueScale=30) {
     // Add X axis
     const x = d3.scaleLinear()
       .domain([0, maxX])
-      .range([0, width]);
+      .range([0, defaultWidth]);
     // Display X axis
     // svg.append("g")
     //   .call(d3.axisBottom(x));
@@ -52,7 +63,7 @@ function updateD3(url, playerId, bandwidth=10, valueScale=30) {
     // Add Y axis
     const y = d3.scaleLinear()
       .domain([0, maxY])
-      .range([0, height]);
+      .range([0, defaultHeight]);
     // Display Y axis
     // svg.append("g")
     //   .call(d3.axisRight(y));
@@ -70,7 +81,7 @@ function updateD3(url, playerId, bandwidth=10, valueScale=30) {
       .y(function (d) {
         return y(d.location[1]);
       })
-      .size([width, height])
+      .size([defaultWidth, defaultHeight])
       .bandwidth(bandwidth)
       (data);
 
