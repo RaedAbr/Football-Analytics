@@ -18,6 +18,8 @@ HTMLSelectElement.prototype.resetElement = function() {
  * All elements are saved in "htmlSelectElements" array
  */
 HTMLSelectElement.prototype.resetNextElements = function() {
+	$("#heatmaps-container").empty();
+	$("#page-header").hide();
 	const nextHTMLSelectElements = htmlSelectElements.slice(htmlSelectElements.indexOf(this) + 1);
 	nextHTMLSelectElements.flat(1).forEach(el => el.resetElement());
 };
@@ -141,32 +143,6 @@ function loadSeasons(data) {
 }
 
 /**
- * Get gender names and ids in corresponding htmlSelectElement
- * @param data Array containing competitions
- */
-// function loadGender(data) {
-// 	console.log(data);
-//
-// 	const distinctByGender = data.distinct("competition_gender")
-// 		.sort((a, b) => a.competition_gender.localeCompare(b.competition_gender));
-// 	console.log(distinctByGender);
-//
-// 	distinctByGender.forEach(competition => genderHtmlSelect.append(new Option(competition.competition_gender, competition.competition_gender)));
-// 	$(genderHtmlSelect).prop( "disabled", false );
-//
-// 	// event
-// 	$(genderHtmlSelect).unbind("change");
-// 	$(genderHtmlSelect).change(function (e) {
-// 		e.stopImmediatePropagation();
-// 		genderHtmlSelect.resetNextElements();
-// 		if ($(this).val() !== NONE) {
-// 			const competitionsByGender = data.find(competition => competition.competition_gender === $(this).val());
-// 			loadTeams(competitionsByGender);
-// 		}
-// 	});
-// }
-
-/**
  * Load all maches in a competition and get teams names and ids in corresponding htmlSelectElement
  * @param competition Specific competitions
  */
@@ -214,43 +190,60 @@ function loadTeams(competition) {
 
 function displayHeatmaps(matches, selectedTeam) {
 	console.log(matches);
-	$("#matches-container").empty();
-	matches.forEach(match =>
-	{
-		$("#matches-container").append(`
-				<div class="row text-center">
-          <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-default final-score">
-              <div class="panel-heading">Final Score</div>
-
-              <table class="table">
-                <tr>
-                  <td><strong><span id="selected-score-` + match.match_id + `">-</span></strong></td>
-                  <td>:</td>
-                  <td><strong><span id="other-score-` + match.match_id + `">-</span></strong></td>
-                </tr>
-              </table>
-            </div>
+	$("#page-header").show();
+	matches.forEach(match => {
+		$("#heatmaps-container").append(`
+		<div class="panel panel-default text-center">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-5 text-right">
+						<strong><span id="selected-name-` + match.match_id + `"></span> (<span id="selected-leg-` + match.match_id + `"></span>)</strong>
+					</div>
+					<div class="col-md-2">
+						vs
+					</div>
+					<div class="col-md-5 text-left">
+						<strong><span id="other-name-` + match.match_id + `"></span> (<span id="other-leg-` + match.match_id + `"></span>)</strong>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-md-5 text-right">
+						<strong><span id="selected-score-` + match.match_id + `">-</span></strong>
+					</div>
+					<div class="col-md-2">
+						:
+					</div>
+					<div class="col-md-5 text-left">
+						<strong><span id="other-score-` + match.match_id + `">-</span></strong>
+					</div>
+				</div>
+			</div>
+  		<div class="panel-body">
+        <div class="row">
+          <div class="col-xs-5 heatmap">
+						<div class="text-center .svg-container" id="heatmap1-` + match.match_id + `">
+							<div class="text-left attack-arrow">
+								<span style="font-size: 30px">&#8680;</span>
+								<span style="position: relative; top: -4px;">Attack</span>
+							</div>
+						</div> 
+          </div>
+          <div class="col-xs-2 stats">
+						<table class="table" id="table-` + match.match_id + `">
+						</table>
+					</div>
+          <div class="col-xs-5 heatmap">            
+						<div class="text-center .svg-container" id="heatmap2-` + match.match_id + `">
+							<div class="text-left attack-arrow">
+								<span style="font-size: 30px">&#8680;</span>
+								<span style="position: relative; top: -4px;">Attack</span>
+							</div>
+						</div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-xs-6">
-            <div class="panel panel-default">
-            	<div class="panel-heading">
-              	<span id="selected-name-` + match.match_id + `"></span> (<span id="selected-leg-` + match.match_id + `"></span>)
-              </div>
-              <div class="text-center .svg-container" id="heatmap1-` + match.match_id + `"></div>
-            </div>
-          </div>
-          <div class="col-xs-6">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-              	<span id="other-name-` + match.match_id + `"></span> (<span id="other-leg-` + match.match_id + `"></span>)
-              </div>
-              <div class="text-center .svg-container" id="heatmap2-` + match.match_id + `"></div>
-            </div>
-          </div>
-        </div>`
+			</div>
+		</div>`
 		);
 		let otherTeam = "", otherTeamId, scoreSelectedTeam, scoreOtherTeam, selectedLeg, otherLeg;
 		if (selectedTeam.team_id == match.home_team.home_team_id) {
@@ -289,7 +282,40 @@ function displayHeatmaps(matches, selectedTeam) {
 				const data2 = events.filter(event => event.team.id == otherTeamId &&
 					event.position && event.location &&
 					(event.position.id >= 9 && event.position.id <= 20));
-				loadD3(match.match_id, data1, data2);
+				return [data1, data2]
+			})
+			.then(dataArray => {
+				const eventList1 = dataArray[0].map(event => {return {name: event.type.name, id: event.type.id}});
+				const eventList2 = dataArray[1].map(event => {return {name: event.type.name, id: event.type.id}});
+
+				const events = [...eventList1, ...eventList2].distinct("id");
+
+				const statEntry = function (eventId, eventName, team1Stat, team2Stat) {
+					return { eventId: eventId, eventName: eventName, team1Stat: team1Stat, team2Stat: team2Stat }
+				};
+
+				const stats = events.map(ev => statEntry(
+					ev.id,
+					ev.name,
+					eventList1.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0),
+					eventList2.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0)
+				));
+				console.log(stats);
+
+				stats.forEach(stat => {
+					$("#table-" + match.match_id).append(`
+						<tr>
+							<td>` + stat.team1Stat + `</td>
+							<td data-toggle="tooltip" title="` + eventsDescriptions[stat.eventId] + `">` + stat.eventName + `</td>
+							<td>` + stat.team2Stat + `</td>
+						</tr>
+					`);
+				});
+
+				return dataArray;
+			})
+			.then(dataArray => {
+				loadD3(match.match_id, dataArray[0], dataArray[1]);
 			});
 	});
 }

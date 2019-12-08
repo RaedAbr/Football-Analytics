@@ -4,10 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Team heatmap</title>
-  <link rel='stylesheet' href='css/bootstrap-3.3.7.min.css'>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel='stylesheet' href='css/fontawesome-free-5.11.2/all.css'>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/team_heatmap.css">
+  <style>
+    .sticky {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 9999;
+    }
+
+    #page-header {
+      margin: 0;
+      padding-left: 20px;
+      background-color: #eeeeee;
+    }
+
+    .sticky + .container-fluid {
+      padding-top: 85px;
+    }
+  </style>
 </head>
 <body>
 <div class="sidebar-container-left">
@@ -35,38 +58,7 @@
     <select name="season" id="season" class="form-control">
     </select>
   </div>
-<!--  <ul class="sidebar-navigation">-->
-<!--    <li class="header"><label for="gender"><i class="fas fa-venus-mars"></i> Gender</label></li>-->
-<!--  </ul>-->
-<!--  <div class="form-group">-->
-<!--    <select name="gender" id="gender" class="form-control">-->
-<!--    </select>-->
-<!--  </div>-->
 </div>
-
-<!--<div class="sidebar-container-right">-->
-<!--  <div class="panel panel-default">-->
-<!--    <div class="panel-heading">Other informations</div>-->
-<!--    <table class="table">-->
-<!--      <tr>-->
-<!--        <td>Date</td>-->
-<!--        <td><span id="match_date">-</span> at <span id="kick_off">-</span></td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td>Week</td>-->
-<!--        <td><span id="match_week">-</span></td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td>Referee</td>-->
-<!--        <td><span id="referee">-</span></td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td>Stadium</td>-->
-<!--        <td><span id="stadium">-</span>, <span id="stadium-country">-</span></td>-->
-<!--      </tr>-->
-<!--    </table>-->
-<!--  </div>-->
-<!--</div>-->
 
 <div class="content-container">
   <div class="container-fluid">
@@ -79,74 +71,33 @@
             </select>
           </div>
         </div>
-        <!--        <div class="col-md-4">-->
-        <!--          <h3><label for="away_team">Away team</label></h3>-->
-        <!--          <div class="form-group">-->
-        <!--            <select name="away_team" id="away_team" class="form-control">-->
-        <!--            </select>-->
-        <!--          </div>-->
-        <!--        </div>-->
       </div>
     </div>
+  </div>
 
-    <div class="container-fluid">
-      <div id="matches-container">
-<!--        <div class="row text-center">-->
-<!--          <div class="col-md-4">-->
-<!--            <div class="panel panel-default">-->
-<!--              <div class="panel-heading">Final Score</div>-->
-
-<!--              <table class="table">-->
-<!--                <tr>-->
-<!--                  <td><strong><span id="home-score">-</span></strong></td>-->
-<!--                  <td>:</td>-->
-<!--                  <td><strong><span id="away-score">-</span></strong></td>-->
-<!--                </tr>-->
-<!--              </table>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="row">-->
-<!--          <div id="won-panel" class="col-md-6">-->
-<!--            <div class="panel panel-default">-->
-<!--              <div class="panel-heading" id="selected-team-name">Won matches heatmap</div>-->
-
-<!--              &lt;!&ndash;            <table class="table">&ndash;&gt;-->
-<!--              &lt;!&ndash;              <tr>&ndash;&gt;-->
-<!--              &lt;!&ndash;                <td><strong><span id="home-score">-</span></strong></td>&ndash;&gt;-->
-<!--              &lt;!&ndash;                <td>:</td>&ndash;&gt;-->
-<!--              &lt;!&ndash;                <td><strong><span id="away-score">-</span></strong></td>&ndash;&gt;-->
-<!--              &lt;!&ndash;              </tr>&ndash;&gt;-->
-<!--              &lt;!&ndash;            </table>&ndash;&gt;-->
-<!--              <div class="text-center .svg-container" id="won-heatmap"></div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div id="lost-panel" class="col-md-6">-->
-<!--            <div class="panel panel-default">-->
-<!--              <div class="panel-heading" id="other-team-name">Lost matches heatmap</div>-->
-
-<!--              &lt;!&ndash;            <table class="table">&ndash;&gt;-->
-<!--              &lt;!&ndash;              <tr>&ndash;&gt;-->
-<!--              &lt;!&ndash;                <td><strong><span id="home-score">-</span></strong></td>&ndash;&gt;-->
-<!--              &lt;!&ndash;                <td>:</td>&ndash;&gt;-->
-<!--              &lt;!&ndash;                <td><strong><span id="away-score">-</span></strong></td>&ndash;&gt;-->
-<!--              &lt;!&ndash;              </tr>&ndash;&gt;-->
-<!--              &lt;!&ndash;            </table>&ndash;&gt;-->
-<!--              <div class="text-center .svg-container" id="lost-heatmap"></div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-      </div>
+  <div id="page-header" class="navbar navbar-default">
+    <h2>Midfield players' events</h2>
+  </div>
+  <div class="container-fluid">
+    <div id="heatmaps-container">
     </div>
-
   </div>
 </div>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-<!-- partial -->
-<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+
+<script>
+  window.onscroll = function() {myFunction()};
+
+  var navbar = document.getElementById("page-header");
+  var sticky = navbar.offsetTop;
+
+  function myFunction() {
+    if (window.pageYOffset >= sticky) {
+      navbar.classList.add("sticky")
+    } else {
+      navbar.classList.remove("sticky");
+    }
+  }
+</script>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 <!-- specific plugin -->

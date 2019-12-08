@@ -21,6 +21,7 @@ HTMLSelectElement.prototype.resetNextElements = function() {
 	const nextHTMLSelectElements = htmlSelectElements.slice(htmlSelectElements.indexOf(this) + 1);
 	nextHTMLSelectElements.flat(1).forEach(el => el.resetElement())
 	spanElements.forEach(el => el.html("-"));
+	$("#heatmap > svg").empty();
 };
 
 /**

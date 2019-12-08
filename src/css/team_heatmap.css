@@ -29,7 +29,8 @@
 }
 .svg-content {
     display: inline-block;
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
+}
+
+.col-xs-2.stats, .col-xs-5.heatmap {
+  padding: 0;
 }
