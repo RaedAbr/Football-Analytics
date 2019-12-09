@@ -1,20 +1,30 @@
-.panel-players table>tbody>tr>td, .panel-players .panel-heading {
-	padding: 0;
-}
-
 .panel-players {
 	margin-top: 0;
 }
 
-.panel-players li {
-	list-style-type: none;
+.panel-players .checkbox {
+  margin: 0;
+	padding: 0 10px;
 }
 
-.panel-players div>ul {
-	padding-left: 15px;
-	margin: 0;
+.panel-players .checkbox.player {
+	padding-left: 30px;
 }
 
-.panel-players .radio {
-	margin: 0;
+.panel-players table>tbody>tr>td,
+.panel-players .panel-heading {
+  padding: 0;
+}
+
+.position label {
+  font-weight: bold;
+}
+
+.position {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+#players-tabs {
+	display: none;
 }

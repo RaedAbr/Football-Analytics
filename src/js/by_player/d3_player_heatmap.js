@@ -4,32 +4,45 @@ const
   defaultWidth = 672,
   defaultHeight = 442;
 
-const svg = d3.select("#heatmap")
+const homeSvg = d3.select("#home-heatmap")
+  .append("svg")
+  .attr("preserveAspectRatio", "xMinYMin meet")
+  .attr("viewBox", "0 0 " + defaultWidth + " " + defaultHeight)
+  .classed("svg-content", true);
+
+const awaySvg = d3.select("#away-heatmap")
   .append("svg")
   .attr("preserveAspectRatio", "xMinYMin meet")
   .attr("viewBox", "0 0 " + defaultWidth + " " + defaultHeight)
   .classed("svg-content", true);
 
 $("svg").css({
-  // backgroundColor: "green",
   backgroundImage: "url(" + imageUrl + ")",
   backgroundRepeat: "no-repeat",
   backgroundSize: "contain"
 });
 
+function updateD3Home(data) {
+  updateD3(homeSvg, data);
+}
+
+function updateD3Away(data) {
+  updateD3(awaySvg, data);
+}
+
 /**
  * Update svg element with new by_player event
+ * @param svg
  * @param data Match events data
- * @param playerId Player id
  * @param bandwidth
  * @param valueScale
  */
-function updateD3(data, playerId, bandwidth=10, valueScale=100) {
+function updateD3(svg, data, bandwidth=10, valueScale=100) {
   // Clear svg
   svg.selectAll("g").remove();
 
-  data = data.filter(event => event.location && event.player)
-    .filter(event => event.player.id === playerId);
+  // data = data.filter(event => event.location && event.player)
+  //   .filter(event => event.player.id === playerId);
   console.log(data);
 
   const maxX = 120;

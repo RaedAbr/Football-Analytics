@@ -21,9 +21,13 @@ HTMLSelectElement.prototype.resetNextElements = function() {
 	const nextHTMLSelectElements = htmlSelectElements.slice(htmlSelectElements.indexOf(this) + 1);
 	nextHTMLSelectElements.flat(1).forEach(el => el.resetElement())
 	spanElements.forEach(el => el.html("-"));
-	$("#heatmap > svg").empty();
+	$("#home-heatmap > svg").empty();
+	$("#away-heatmap > svg").empty();
 	$("#home-formation").empty();
 	$("#away-formation").empty();
+	$("#players-tabs").hide();
+	$("[id^=tr-]").remove();
+	$("input[type=checkbox]").prop("checked", false);
 };
 
 /**
@@ -244,48 +248,81 @@ function loadPlayers(match) {
 				.reduce((acc, char) => acc + char + "-", "").slice(0, -1);
 			$("#away-formation").html(awayFormation);
 
-			[homeTeamInfo, awayTeamInfo].forEach(teamInfo => {
-				let optgroup = $('<optgroup/>')
-					.attr('label', teamInfo.team.name)
-					.appendTo($(playerHtmlSelect));
+			[homeTeamInfo, awayTeamInfo].forEach((teamInfo, index) => {
+				// let optgroup = $('<optgroup/>')
+				// 	.attr('label', teamInfo.team.name)
+				// 	.appendTo($(playerHtmlSelect));
+				$("#players-heading" + index).html(teamInfo.team.name);
 				const players = teamInfo.tactics.lineup;
 
-				function compare( a, b ) {
-					if ( a.position.id < b.position.id ){
-						return -1;
-					}
-					if ( a.position.id > b.position.id ){
-						return 1;
-					}
-					return 0;
-				}
-				console.log(players);
-				console.log(players.sort(compare));
-				players.sort(compare)
-					.forEach(player =>  {
-						const option = new Option(
-							player.jersey_number + " - " + player.player.name + " (" + POSITIONS_GUIDE[player.position.id].abbreviation + ")",
-							player.player.id
-						);
-						$(option).attr("data-toggle", "tooltip")
-							.attr("title", POSITIONS_GUIDE[player.position.id].name);
-						optgroup.append(option);
-					});
+				// function compare( a, b ) {
+				// 	if ( a.position.id < b.position.id ){
+				// 		return -1;
+				// 	}
+				// 	if ( a.position.id > b.position.id ){
+				// 		return 1;
+				// 	}
+				// 	return 0;
+				// }
+				// console.log(players);
+				// console.log(players.sort(compare));
+				// players.sort(compare)
+				// 	.forEach(player =>  {
+				// 		const option = new Option(
+				// 			player.jersey_number + " - " + player.player.name + " (" + POSITIONS_GUIDE[player.position.id].abbreviation + ")",
+				// 			player.player.id
+				// 		);
+				// 		$(option).attr("data-toggle", "tooltip")
+				// 			.attr("title", POSITIONS_GUIDE[player.position.id].name);
+				// 		optgroup.append(option);
+				// 	});
 
 				//////////////////////////// new
-				// let playersByPosition = [];
-				// players.forEach();
+				let positions = [
+					{position: "G", players: players.filter(p => p.position.id == 1)},
+					{position: "D", players: players.filter(p => p.position.id >= 2 && p.position.id <= 8)},
+					{position: "M", players: players.filter(p => (p.position.id >= 9 && p.position.id <= 16) || p.position.id >= 18 && p.position.id <= 20)},
+					{position: "S", players: players.filter(p => p.position.id == 17 || p.position.id >= 21)}
+				];
+				console.log(positions);
+				let currentTrElement;
+				positions.forEach(position => {
+					currentTrElement = $("#" + position.position + "-checkbox" + index);
+					position.players.forEach(player => {
+						currentTrElement.after(`
+							<tr id="tr-` + player.player.id + index + `">
+								<td>
+									<div class="checkbox player">
+										<label>
+											<input type="checkbox" name="player" 
+											value="` + position.position + `P" 
+											playerId="` + player.player.id + `">
+												` + player.jersey_number + " - " + player.player.name + " (" + POSITIONS_GUIDE[player.position.id].abbreviation + ")" + `
+										</label>
+									</div>
+								</td>
+							</tr>
+						`);
+						currentTrElement = $("#tr-" + player.player.id + index);
+					});
+				});
+
+
+				const playersEventsData = events.filter(event => event.location && event.player);
+				addCheckboxesListeners(index, playersEventsData);
 			});
 
-			$(playerHtmlSelect).prop( "disabled", false );
+			$("#players-tabs").show();
 
-			$(playerHtmlSelect).unbind("change");
-			$(playerHtmlSelect).change(function () {
-				const playerId = Number($(this).val());
-				if (playerId) {
-					updateD3(events, playerId);
-				}
-			})
+			// $(playerHtmlSelect).prop( "disabled", false );
+			//
+			// $(playerHtmlSelect).unbind("change");
+			// $(playerHtmlSelect).change(function () {
+			// 	const playerId = Number($(this).val());
+			// 	if (playerId) {
+			// 		updateD3(events, playerId);
+			// 	}
+			// })
 		});
 	// loadJSON(LINEUP_URL + match.match_id + ".json")
 	// 	.then(lineup => {
@@ -320,6 +357,42 @@ function loadPlayers(match) {
 	// 			}
 	// 		})
 	// 	});
+}
+
+/**
+ * Create checkboxes listeners
+ */
+let selectedPlayersId = [];
+
+function onCheckboxChange(index, events){
+	selectedPlayersId[index] = $.map($(".players-tab" + index + " input[name=player]:checked"), function(el) {
+		return $(el).attr("playerId");
+	});
+	console.log(selectedPlayersId[index]);
+	const filteredData = events.filter(event => selectedPlayersId[index].includes(event.player.id.toString()));
+	console.log(filteredData);
+	index == 0 ? updateD3Home(filteredData) : updateD3Away(filteredData);
+}
+
+function addCheckboxesListeners(index, events) {
+	$.each($(".players-tab" + index + " input[name=player]"), (i, el) => {
+		$(el).unbind("change");
+		$(el).change(function () {
+			onCheckboxChange(index, events);
+		});
+	});
+
+	$.each($(".players-tab" + index + " input[name=position]"), (i, elPosition) => {
+		$(elPosition).unbind("click");
+		$(elPosition).click(function() {
+			const value = $(elPosition).val();
+			console.log(value);
+			$.each($(".players-tab" + index + " input[value=" + value + "P]"), (i, elPlayer) => {
+				$(elPlayer).prop("checked", $(elPosition).prop("checked"));
+			});
+			onCheckboxChange(index, events);
+		});
+	});
 }
 
 /**

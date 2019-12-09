@@ -103,162 +103,102 @@
       </div>
     </div>
 
-    <div class="form-group text-center">
+    <div id="players-tabs" class="form-group text-center">
       <h4><label for="player">Players</label></h4>
-<!--      <div class="row">-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="panel panel-primary panel-players">-->
-<!--            &lt;!&ndash; Default panel contents &ndash;&gt;-->
-<!--            <div class="panel-heading">Panel heading</div>-->
-<!--            <table class="table">-->
-<!--              <tr>-->
-<!--                <td>Goal keeper</td>-->
-<!--                <td>bla bla bla</td>-->
-<!--              </tr>-->
-<!--              <tr>-->
-<!--                <td rowspan="4">Defenders</td>-->
-<!--                <td>bla bla bla</td>-->
-<!--              </tr>-->
-<!--              <tr><td>bla bla bla</td></tr>-->
-<!--              <tr><td>bla bla bla</td></tr>-->
-<!--              <tr><td>bla bla bla</td></tr>-->
-<!--              <tr>-->
-<!--                <td rowspan="4">Midfield</td>-->
-<!--                <td>bla bla bla</td>-->
-<!--              </tr>-->
-<!--              <tr><td>bla bla bla</td></tr>-->
-<!--              <tr><td>bla bla bla</td></tr>-->
-<!--              <tr><td>bla bla bla</td></tr>-->
-<!--              <tr>-->
-<!--                <td rowspan="2">Attack</td>-->
-<!--                <td>bla bla bla</td></tr>-->
-<!--              <tr><td>bla bla bla</td></tr>-->
-<!--            </table>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="panel panel-primary panel-players">-->
-<!--            <div class="panel-heading">Panel heading</div>-->
-<!--            <div class="text-left">-->
-<!--              <ul>-->
-<!--                <li>-->
-<!--                  <div class="radio">-->
-<!--                    <label>-->
-<!--                      <input type="radio" name="optionsRadios">Goal keeper-->
-<!--                    </label>-->
-<!--                  </div>-->
-<!--                </li>-->
-<!--                <ul>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" name="optionsRadios">bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                </ul>-->
-<!--                <li>-->
-<!--                  <div class="radio">-->
-<!--                    <label>-->
-<!--                      <input type="radio" checked>Defenders-->
-<!--                    </label>-->
-<!--                  </div>-->
-<!--                </li>-->
-<!--                <ul>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" checked>bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" checked>bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" checked>bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" checked> bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                </ul>-->
-<!--                <li>-->
-<!--                  <div class="radio">-->
-<!--                    <label>-->
-<!--                      <input type="radio" name="optionsRadios">Midfield-->
-<!--                    </label>-->
-<!--                  </div>-->
-<!--                </li>-->
-<!--                <ul>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" name="optionsRadios">bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" name="optionsRadios">bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" name="optionsRadios">bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" name="optionsRadios">bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                </ul>-->
-<!--                <li>-->
-<!--                  <div class="radio">-->
-<!--                    <label>-->
-<!--                      <input type="radio" name="optionsRadios">Attack-->
-<!--                    </label>-->
-<!--                  </div>-->
-<!--                </li>-->
-<!--                <ul>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" name="optionsRadios">bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                  <li>-->
-<!--                    <div class="radio">-->
-<!--                      <label>-->
-<!--                        <input type="radio" name="optionsRadios">bla bla bla-->
-<!--                      </label>-->
-<!--                    </div>-->
-<!--                  </li>-->
-<!--                </ul>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div class="row">
+<!-- ************************************************LEFT-->
+        <div class="col-md-6 players-tab0">
+          <div class="panel panel-primary panel-players">
+            <div id="players-heading0" class="panel-heading"></div>
+            <table class="table text-left">
+              <tbody>
+              <tr id="G-checkbox0">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="G">Goal keeper
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="D-checkbox0">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="D">Defenders
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="M-checkbox0">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="M">Midfielders
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="S-checkbox0">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="S">Strikers
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+<!-- ************************************************RIGHT-->
+        <div class="col-md-6 players-tab1">
+          <div class="panel panel-primary panel-players">
+            <div id="players-heading1" class="panel-heading"></div>
+            <table class="table text-left">
+              <tbody>
+              <tr id="G-checkbox1">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="G">Goal keeper
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="D-checkbox1">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="D">Defenders
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="M-checkbox1">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="M">Midfielders
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="S-checkbox1">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="S">Strikers
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       <select name="player" id="player" class="form-control">
       </select>
     </div>
