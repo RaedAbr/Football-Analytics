@@ -135,6 +135,11 @@ function loadAll(url) {
                 .ticks(4);
             
 
+            // number selected
+            dc.dataCount('.data-count')
+            .dimension(ndx) // set dimension to all data
+            .group(all); // set group to ndx.groupAll()
+
             dc.renderAll();
             dc.redrawAll();
             }, 500);
