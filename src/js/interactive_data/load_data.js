@@ -4,6 +4,7 @@ window.competitionChart = dc.rowChart("#competition-chart");
 window.seasonChart = dc.rowChart("#season-chart");
 window.timeChartObs = dc.lineChart("#time-chart-obs");
 window.timeBar = dc.barChart("#time-bar");
+window.dataTable = dc.dataTable("#data-table");  
 
 /**
  * Promise that load json data from given url
@@ -47,6 +48,7 @@ function loadMatches(competition_id, season_id) {
             //console.log(data);
             data.forEach(d => {
                 matches.push({
+                    match_id: d.match_id,
                     match_date: new Date(d.match_date),
                     home_team_name: d.home_team.home_team_name,
                     away_team_name: d.away_team.away_team_name,
@@ -145,10 +147,12 @@ function loadAll(url) {
                     .height(270)
                     .transitionDuration(500)
                     .margins({
-                        top: 30, right: 50, bottom: 25, left: 40,
+                        top: 20, right: 50, bottom: 30, left: 40,
                     })
                     .dimension(observationDimension)
                     .group(observationGroup)
+                    .yAxisLabel("Match nb")
+                    .xAxisLabel("Date")
                     .rangeChart(timeBar)
                     .brushOn(false)
                     .mouseZoomable(false)
@@ -160,15 +164,17 @@ function loadAll(url) {
                     .title(d => `Number of observations :`)
                     .xAxis();
 
-                
+
                 timeBar
                     .width(990)
-                    .height(60)
+                    .height(100)
                     .margins({
-                        top: 0, right: 50, bottom: 20, left: 40,
+                        top: 0, right: 50, bottom: 30, left: 30,
                     })
                     .dimension(observationDimension)
                     .group(observationGroup)
+                    .yAxisLabel("Match nb")
+                    .xAxisLabel("Date")
                     .centerBar(true)
                     .gap(1)
                     .x(d3.time.scale().domain(d3.extent(matches, d => d.match_date)))
@@ -177,6 +183,59 @@ function loadAll(url) {
                     .xUnits(d3.time.months)
                     .yAxis()
                     .tickFormat(v => '');
+
+                
+                const matchDimension = ndx.dimension(d => d.match_id);
+                const matchGroup = matchDimension.group();
+
+                dataTable
+                    .dimension(matchDimension)
+                    .group(d => matchGroup)
+                    .size(matches.length)
+                    .columns([
+                        {
+                            label: 'Home team',
+                            format(d) {
+                                return d.home_team_name;
+                            },
+                        },
+                        {
+                            label: 'Score',
+                            format(d) {
+                                return d.home_score + " - " + d.away_score;
+                            },
+                        },
+                        {
+                            label: 'Away team',
+                            format(d) {
+                                return d.away_team_name;
+                            },
+                        },
+                        {
+                            label: 'Competition',
+                            format(d) {
+                                return d.competition_name;
+                            },
+                        },
+                        {
+                            label: 'Season',
+                            format(d) {
+                                return d.season_name;
+                            },
+                        },
+                        {
+                            label: 'Date',
+                            format(d) {
+                                return d.match_date.toLocaleDateString();
+                            },
+                        },
+                        
+                    ])
+                    .sortBy(d => d.match_date)
+                    .order(d3.descending);
+                    // .on('renderlet', (table) => {
+                    //     table.selectAll('.dc-table-group').classed('info', true);
+                    // });
 
 
                 // number selected

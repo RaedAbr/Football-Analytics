@@ -14,7 +14,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel='stylesheet' href='css/fontawesome-free-5.11.2/all.css'>
   <link rel="stylesheet" href="css/style.css">
-  <!-- <link rel="stylesheet" href="css/player_heatmap.css"> -->
 </head>
 <body>
 
@@ -27,26 +26,27 @@
     
     </div>
   </div>
-  <section class="page-section cta mx-5 rounded">
+  <!-- <section class="page-section cta mx-5 rounded"> -->
         <div class='container' style='font: 12px sans-serif;'>
           <div class="row">
-            <div class="data-count" style="float: left">
+            
+          </div>
+          <br>
   
-              <br><br>
+          <div class="row text-center">
+  
+            <div class="col-md-12 data-count" style="margin-bottom: 20px;">
+  
               <span>
               <span style="color:blue" class="filter-count">a</span>
                       selected out of
                       <span style="color:blue" class="total-count">b</span>
-                      records
+                      matches
               <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
                   </span>
             </div>
-          </div>
-          <br>
-  
-          <div class="row">
-  
-            <div class='span4' id='country-chart'>
+
+            <div class='col-md-4' id='country-chart'>
 
                 <strong>Countries</strong>
                 <a class="reset"
@@ -59,7 +59,7 @@
             </div>
 
 
-            <div class='span4' id='competition-chart'>
+            <div class='col-md-4' id='competition-chart'>
   
               <strong>Competitions</strong>
               <a class="reset"
@@ -71,7 +71,7 @@
               <div class="clearfix"></div>
             </div>
 
-            <div class='span4' id='season-chart'>
+            <div class='col-md-4' id='season-chart'>
   
                 <strong>Seasons</strong>
                 <a class="reset"
@@ -82,22 +82,36 @@
     
                 <div class="clearfix"></div>
             </div>
-  
-            <div class='span12' id="time-chart-obs">
-              <strong>Matches grouped by month</strong></br>
+            <div class='col-md-4 text-center'>
+              Match nb
+            </div>
+            <div class='col-md-4 text-center'>
+              Match nb
+            </div>
+            <div class='col-md-4 text-center'>
+              Match nb
+            </div>
+            <div class='col-md-12' style="margin-top: 20px;" id="time-chart-obs">
+              <strong style="text-align: left;">Matches grouped by month</strong></br>
               <a class="reset"
                  href="javascript:timeChartObs.filterAll();timeBar.filterAll();dc.redrawAll();"
                  style="display: none;"> reset</a>
               <span class="reset" style="display: none;">Current filter: <span class="filter"></span></span>
             </div>
-            <div class='span12' id="time-bar">
+            <div class='col-md-12' id="time-bar">
               <strong>Select time range on this chart</strong>
   
+            </div>
+
+            <div class='col-md-12 text-left'>
+              <table class='table table-hover' id='data-table'>
+  
+              </table>
             </div>
   
             
         </div>
-      </section>
+      <!-- </section> -->
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
