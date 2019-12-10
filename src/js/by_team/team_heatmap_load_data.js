@@ -301,12 +301,17 @@ function displayHeatmaps(matches, selectedTeam) {
 					return { eventId: eventId, eventName: eventName, team1Stat: team1Stat, team2Stat: team2Stat }
 				};
 
-				const stats = events.map(ev => statEntry(
-					ev.id,
-					ev.name,
-					eventList1.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0),
-					eventList2.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0)
-				));
+				const stats = events.map(ev => {
+					if (ev.id == 42) { // Ball Receipt
+						ev.name = ev.name.slice(0, -1) // remove last char (the star char *)
+					}
+					return statEntry(
+						ev.id,
+						ev.name,
+						eventList1.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0),
+						eventList2.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0)
+					)
+				}).sort((a, b) => a.eventName.localeCompare(b.eventName));
 				console.log(stats);
 
 				stats.forEach(stat => {
