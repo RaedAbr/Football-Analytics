@@ -2,6 +2,8 @@
 window.countryChart = dc.rowChart("#country-chart");
 window.competitionChart = dc.rowChart("#competition-chart");
 window.seasonChart = dc.rowChart("#season-chart");
+window.timeChartObs = dc.lineChart("#time-chart-obs");
+window.timeBar = dc.barChart("#time-bar");
 
 /**
  * Promise that load json data from given url
@@ -42,10 +44,10 @@ function loadMatches(competition_id, season_id) {
     let url = MATCHES_URL + competition_id + "/" + season_id + ".json";
     loadJSON(url)
         .then(data => {
-            console.log(data);
+            //console.log(data);
             data.forEach(d => {
                 matches.push({
-                    match_date: d.match_date,
+                    match_date: new Date(d.match_date),
                     home_team_name: d.home_team.home_team_name,
                     away_team_name: d.away_team.away_team_name,
                     home_score: d.home_score,
@@ -75,77 +77,119 @@ function loadAll(url) {
                 loadMatches(d.competition_id, d.season_id)
             });
 
-            setTimeout(function() {
+            setTimeout(function () {
                 console.log(matches);
                 var ndx = crossfilter(matches);
-            var all = ndx.groupAll();
+                var all = ndx.groupAll();
 
-            // console.log(ndx);
-            // console.log(all);
+                // console.log(ndx);
+                // console.log(all);
 
-            const countryDimension = ndx.dimension(d => d.country_name);
-            const countryGroup = countryDimension.group();
+                const countryDimension = ndx.dimension(d => d.country_name);
+                const countryGroup = countryDimension.group();
 
-            countryChart
-                .width(300)
-                .height(300)
-                .margins({
-                    top: 5, left: 10, right: 10, bottom: 20,
-                })
-                .dimension(countryDimension)
-                .group(countryGroup)
-                .colors(d3.scale.category10())
-                .label(d => d.key)
-                .elasticX(true)
-                .xAxis()
-                .ticks(4);
+                countryChart
+                    .width(300)
+                    .height(300)
+                    .margins({
+                        top: 5, left: 10, right: 10, bottom: 20,
+                    })
+                    .dimension(countryDimension)
+                    .group(countryGroup)
+                    .colors(d3.scale.category10())
+                    .label(d => d.key)
+                    .elasticX(true)
+                    .xAxis()
+                    .ticks(4);
 
-            const competitionDimension = ndx.dimension(d => d.competition_name);
-            const competitionGroup = competitionDimension.group();
+                const competitionDimension = ndx.dimension(d => d.competition_name);
+                const competitionGroup = competitionDimension.group();
 
-            competitionChart
-                .width(300)
-                .height(300)
-                .margins({
-                    top: 5, left: 10, right: 10, bottom: 20,
-                })
-                .dimension(competitionDimension)
-                .group(competitionGroup)
-                .colors(d3.scale.category10())
-                .label(d => d.key)
-                .elasticX(true)
-                .xAxis()
-                .ticks(4);
+                competitionChart
+                    .width(300)
+                    .height(300)
+                    .margins({
+                        top: 5, left: 10, right: 10, bottom: 20,
+                    })
+                    .dimension(competitionDimension)
+                    .group(competitionGroup)
+                    .colors(d3.scale.category10())
+                    .label(d => d.key)
+                    .elasticX(true)
+                    .xAxis()
+                    .ticks(4);
 
-            const seasonDimension = ndx.dimension(d => d.season_name);
-            const seasonGroup = seasonDimension.group();
+                const seasonDimension = ndx.dimension(d => d.season_name);
+                const seasonGroup = seasonDimension.group();
 
-            seasonChart
-                .width(300)
-                .height(300)
-                .margins({
-                    top: 5, left: 10, right: 10, bottom: 20,
-                })
-                .dimension(seasonDimension)
-                .group(seasonGroup)
-                .colors(d3.scale.category10())
-                .label(d => d.key)
-                .elasticX(true)
-                .xAxis()
-                .ticks(4);
-            
+                seasonChart
+                    .width(300)
+                    .height(300)
+                    .margins({
+                        top: 5, left: 10, right: 10, bottom: 20,
+                    })
+                    .dimension(seasonDimension)
+                    .group(seasonGroup)
+                    .colors(d3.scale.category10())
+                    .label(d => d.key)
+                    .elasticX(true)
+                    .xAxis()
+                    .ticks(4);
 
-            // number selected
-            dc.dataCount('.data-count')
-            .dimension(ndx) // set dimension to all data
-            .group(all); // set group to ndx.groupAll()
+                const observationDimension = ndx.dimension(d => d3.time.month(d.match_date));
+                const observationGroup = observationDimension.group().reduceCount(d => d.match_date);
 
-            dc.renderAll();
-            dc.redrawAll();
-            }, 500);
+                timeChartObs
+                    .renderArea(true)
+                    .width(990)
+                    .height(270)
+                    .transitionDuration(500)
+                    .margins({
+                        top: 30, right: 50, bottom: 25, left: 40,
+                    })
+                    .dimension(observationDimension)
+                    .group(observationGroup)
+                    .rangeChart(timeBar)
+                    .brushOn(false)
+                    .mouseZoomable(false)
+                    .x(d3.time.scale().domain(d3.extent(matches, d => d.match_date)))
+                    .round(d3.time.month.round)
+                    .xUnits(d3.time.months)
+                    .elasticY(true)
+                    .renderHorizontalGridLines(true)
+                    .title(d => `Number of observations :`)
+                    .xAxis();
 
-            
-            
+                
+                timeBar
+                    .width(990)
+                    .height(60)
+                    .margins({
+                        top: 0, right: 50, bottom: 20, left: 40,
+                    })
+                    .dimension(observationDimension)
+                    .group(observationGroup)
+                    .centerBar(true)
+                    .gap(1)
+                    .x(d3.time.scale().domain(d3.extent(matches, d => d.match_date)))
+                    .round(d3.time.month.round)
+                    .alwaysUseRounding(true)
+                    .xUnits(d3.time.months)
+                    .yAxis()
+                    .tickFormat(v => '');
+
+
+                // number selected
+                dc.dataCount('.data-count')
+                    .dimension(ndx) // set dimension to all data
+                    .group(all); // set group to ndx.groupAll()
+
+                dc.renderAll();
+                dc.redrawAll();
+            }, 1000);
+
+
+
 
             const distinctByCountry = data.distinct("country_name")
                 .sort((a, b) => a.country_name.localeCompare(b.country_name));
