@@ -161,7 +161,7 @@ function loadAll(url) {
                     .xUnits(d3.time.months)
                     .elasticY(true)
                     .renderHorizontalGridLines(true)
-                    .title(d => `Number of observations :`)
+                    .title(d => `Number of matche: `+ d.value)
                     .xAxis();
 
 
