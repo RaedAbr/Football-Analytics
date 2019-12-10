@@ -278,22 +278,22 @@ function loadPlayers(match) {
 				// 	});
 
 				//////////////////////////// new
-				let positions = [
+				positions[index] = [
 					{position: "G", players: players.filter(p => p.position.id == 1)},
 					{position: "D", players: players.filter(p => p.position.id >= 2 && p.position.id <= 8)},
 					{position: "M", players: players.filter(p => (p.position.id >= 9 && p.position.id <= 16) || p.position.id >= 18 && p.position.id <= 20)},
 					{position: "S", players: players.filter(p => p.position.id == 17 || p.position.id >= 21)}
 				];
-				console.log(positions);
+				console.log(positions[index]);
 				let currentTrElement;
-				positions.forEach(position => {
+				positions[index].forEach(position => {
 					currentTrElement = $("#" + position.position + "-checkbox" + index);
 					position.players.forEach(player => {
 						currentTrElement.after(`
 							<tr id="tr-` + player.player.id + index + `">
 								<td>
 									<div class="checkbox player">
-										<label>
+										<label data-toggle="tooltip" title="` + POSITIONS_GUIDE[player.position.id].name + `">
 											<input type="checkbox" name="player" 
 											value="` + position.position + `P" 
 											playerId="` + player.player.id + `">
@@ -363,14 +363,38 @@ function loadPlayers(match) {
  * Create checkboxes listeners
  */
 let selectedPlayersId = [];
+let selectedPlayersPositions = [];
+let positions = [];
 
 function onCheckboxChange(index, events){
-	selectedPlayersId[index] = $.map($(".players-tab" + index + " input[name=player]:checked"), function(el) {
-		return $(el).attr("playerId");
-	});
+	selectedPlayersId[index] =
+		$.map($(".players-tab" + index + " input[name=player]:checked"), function(el) {
+			return $(el).attr("playerId");
+		});
+	selectedPlayersPositions[index] =
+		$.map($(".players-tab" + index + " input[name=player]:checked"), function(el) {
+			return $(el).val();
+		});
 	console.log(selectedPlayersId[index]);
+	console.log(selectedPlayersPositions[index]);
+
+	positions[index].forEach(pos => {
+		console.log("filter on selectedPlayersId");
+		console.log(selectedPlayersPositions[index].filter(x => x[0] == pos.position));
+		const concernedElement = $(".players-tab" + index + " input[value=" + pos.position + "]");
+		const filter = selectedPlayersPositions[index].filter(x => x[0] == pos.position);
+		if (filter.length === pos.players.length) {
+			concernedElement.prop("checked", true);
+			concernedElement.prop("indeterminate", false);
+		} else if (filter.length == 0) {
+			concernedElement.prop("checked", false);
+			concernedElement.prop("indeterminate", false);
+		} else {
+			concernedElement.prop("indeterminate", true);
+		}
+	});
+
 	const filteredData = events.filter(event => selectedPlayersId[index].includes(event.player.id.toString()));
-	console.log(filteredData);
 	index == 0 ? updateD3Home(filteredData) : updateD3Away(filteredData);
 }
 
