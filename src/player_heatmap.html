@@ -15,57 +15,42 @@
   <link rel="stylesheet" href="css/player_heatmap.css">
 </head>
 <body>
-
+<div id="page-filter">
+  <h1 id="filter-hint-comment">Start with selecting the country, competition, season and then the team<br>
+    <input type="button" id="filter-hint-ok" class="btn btn-default" value="OK"></h1>
+  <div id="filter-hint-menu"></div>
+  <div id="filter-hint-home-team"></div>
+  <div id="filter-hint-away-team"></div>
+  <img id="filter-arrow" src="img/arrow.png">
+</div>
 <div class="sidebar-container-left">
   <div class="sidebar-logo">
     Football Analytics
   </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="country"><i class="fas fa-flag"></i> Country</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="country" id="country" class="form-control">
-    </select>
-  </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="competition"><i class="fas fa-trophy"></i> Competition</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="competition" id="competition" class="form-control">
-    </select>
-  </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="season"><i class="fas fa-calendar-check"></i> Season</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="season" id="season" class="form-control">
-    </select>
+  <div id="filter-hint-menu-target">
+    <ul class="sidebar-navigation">
+      <li class="header"><label for="country"><i class="fas fa-flag"></i> Country</label></li>
+    </ul>
+    <div class="form-group">
+      <select name="country" id="country" class="form-control">
+      </select>
+    </div>
+    <ul class="sidebar-navigation">
+      <li class="header"><label for="competition"><i class="fas fa-trophy"></i> Competition</label></li>
+    </ul>
+    <div class="form-group">
+      <select name="competition" id="competition" class="form-control">
+      </select>
+    </div>
+    <ul class="sidebar-navigation">
+      <li class="header"><label for="season"><i class="fas fa-calendar-check"></i> Season</label></li>
+    </ul>
+    <div class="form-group">
+      <select name="season" id="season" class="form-control">
+      </select>
+    </div>
   </div>
 </div>
-
-<!--<div class="sidebar-container-right">-->
-<!--    <div class="panel panel-default">-->
-<!--      <div class="panel-heading">Other informations</div>-->
-<!--      <table class="table">-->
-<!--        <tr>-->
-<!--          <td>Date</td>-->
-<!--          <td><span id="match_date">-</span> at <span id="kick_off">-</span></td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td>Week</td>-->
-<!--          <td><span id="match_week">-</span></td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td>Referee</td>-->
-<!--          <td><span id="referee">-</span></td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td>Stadium</td>-->
-<!--          <td><span id="stadium">-</span>, <span id="stadium-country">-</span></td>-->
-<!--        </tr>-->
-<!--      </table>-->
-<!--    </div>-->
-<!--</div>-->
 
 <div class="content-container">
   <div class="container-fluid">
@@ -237,13 +222,13 @@
             </td>
             <td>
               <div class="col-md-12 col-heatmap-right">
-              <div class="text-center" id="away-heatmap">
-                <div class="text-left attack-arrow">
-                  <span style="font-size: 30px">&#8680;</span>
-                  <span style="position: relative; top: -4px;">Attack</span>
+                <div class="text-center" id="away-heatmap">
+                  <div class="text-left attack-arrow">
+                    <span style="font-size: 30px">&#8680;</span>
+                    <span style="position: relative; top: -4px;">Attack</span>
+                  </div>
                 </div>
               </div>
-            </div>
             </td>
           </tr>
         </table>
@@ -252,6 +237,78 @@
 
   </div>
 </div>
+
+<script>
+  // this is the first time
+  if (!localStorage.noFirstVisit) {
+    document.getElementById("page-filter").style.display = "block";
+
+    // check this flag for escaping this "if" block next time
+    localStorage.noFirstVisit = "1";
+
+    let filterHintMenu = document.getElementById("filter-hint-menu");
+    let filterHintMenuTarget = document.getElementById("filter-hint-menu-target");
+
+    let filterHintHomeTeam = document.getElementById("filter-hint-home-team");
+    let filterHintHomeTeamTarget = document.getElementById("home_team");
+
+    let filterHintAwayTeam = document.getElementById("filter-hint-away-team");
+    let filterHintAwayTeamTarget = document.getElementById("away_team");
+
+    let filterHintArrow = document.getElementById("filter-arrow");
+
+    let filterHintComment = document.getElementById("filter-hint-comment");
+
+    filterHintMenu.style.width = filterHintMenuTarget.clientWidth + "px";
+    filterHintMenu.style.height = filterHintMenuTarget.clientHeight + "px";
+    filterHintMenu.style.top = offset(filterHintMenuTarget).top + "px";
+    filterHintMenu.style.left = offset(filterHintMenuTarget).left + 3 + "px";
+
+    filterHintHomeTeam.style.width = filterHintHomeTeamTarget.clientWidth + 17 + "px";
+    filterHintHomeTeam.style.height = filterHintHomeTeamTarget.clientHeight + 16 + "px";
+    filterHintHomeTeam.style.top = offset(filterHintHomeTeamTarget).top - 7 + "px";
+    filterHintHomeTeam.style.left = offset(filterHintHomeTeamTarget).left - 8 + "px";
+
+    filterHintAwayTeam.style.width = filterHintAwayTeamTarget.clientWidth + 17 + "px";
+    filterHintAwayTeam.style.height = filterHintAwayTeamTarget.clientHeight + 16 + "px";
+    filterHintAwayTeam.style.top = offset(filterHintAwayTeamTarget).top - 7 + "px";
+    filterHintAwayTeam.style.left = offset(filterHintAwayTeamTarget).left - 8 + "px";
+
+    filterHintArrow.style.left = filterHintMenu.clientWidth + "px";
+    filterHintArrow.style.top = offset(filterHintHomeTeamTarget).top + filterHintHomeTeamTarget.clientHeight + 10 + "px";
+    filterHintArrow.style.display = "block";
+
+    filterHintComment.style.top = offset(filterHintArrow).top + filterHintArrow.clientHeight + 30 + "px";
+
+    document.getElementsByTagName("body")[0].onresize = function () {
+      filterHintHomeTeam.style.width = filterHintHomeTeamTarget.clientWidth + 17 + "px";
+      filterHintAwayTeam.style.width = filterHintAwayTeamTarget.clientWidth + 17 + "px";
+    filterHintAwayTeam.style.top = offset(filterHintAwayTeamTarget).top - 7 + "px";
+    filterHintAwayTeam.style.left = offset(filterHintAwayTeamTarget).left - 8 + "px";
+    };
+
+    document.getElementById("filter-hint-ok").onclick = function () {
+      document.getElementById("page-filter").style.display = "none";
+    }
+  }
+
+  function offset(el) {
+    const rect = el.getBoundingClientRect(),
+      scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+      scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return {
+      top: rect.top + scrollTop,
+      left: rect.left + scrollLeft
+    }
+  }
+
+  // ctrl + R => clear localstorage
+  $(document).keydown(function(e) {
+    if (e.keyCode == 82 && e.ctrlKey) {
+      localStorage.clear();
+    }
+  });
+</script>
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>

@@ -19,7 +19,7 @@
   <h1 id="filter-hint-comment">Start with selecting the country, competition, season and then the team<br>
     <input type="button" id="filter-hint-ok" class="btn btn-default" value="OK"></h1>
   <div id="filter-hint-menu"></div>
-  <div id="filter-hint-team"></div>
+  <div id="filter-hint-home-team"></div>
   <img id="filter-arrow" src="img/arrow.png">
 </div>
 <div class="sidebar-container-left">
@@ -99,7 +99,7 @@
     let filterHintMenu = document.getElementById("filter-hint-menu");
     let filterHintMenuTarget = document.getElementById("filter-hint-menu-target");
 
-    let filterHintTeam = document.getElementById("filter-hint-team");
+    let filterHintTeam = document.getElementById("filter-hint-home-team");
     let filterHintTeamTarget = document.getElementById("team");
 
     let filterHintArrow = document.getElementById("filter-arrow");
@@ -131,6 +131,7 @@
     }
   }
 
+  // ctrl + R => clear localstorage
   $(document).keydown(function(e) {
     if (e.keyCode == 82 && e.ctrlKey) {
       localStorage.clear();

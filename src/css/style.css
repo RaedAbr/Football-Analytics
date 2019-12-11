@@ -183,7 +183,7 @@ table[id^="stats-table"] > tfoot > tr > td {
   border: solid #151515;
 }
 
-#filter-hint-menu, #filter-hint-team {
+#filter-hint-menu, #filter-hint-home-team, #filter-hint-away-team {
   position: fixed;
   border: solid white;
 }
