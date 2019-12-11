@@ -167,24 +167,24 @@ function loadAll(url) {
                     .xAxis();
 
 
-                timeBar
-                    .width(990)
-                    .height(100)
-                    .margins({
-                        top: 0, right: 50, bottom: 30, left: 30,
-                    })
-                    .dimension(observationDimension)
-                    .group(observationGroup)
-                    .yAxisLabel("Match nb")
-                    .xAxisLabel("Date")
-                    .centerBar(true)
-                    .gap(1)
-                    .x(d3.time.scale().domain(d3.extent(matches, d => d.match_date)))
-                    .round(d3.time.month.round)
-                    .alwaysUseRounding(true)
-                    .xUnits(d3.time.months)
-                    .yAxis()
-                    .tickFormat(v => '');
+                // timeBar
+                //     .width(990)
+                //     .height(100)
+                //     .margins({
+                //         top: 0, right: 50, bottom: 30, left: 30,
+                //     })
+                //     .dimension(observationDimension)
+                //     .group(observationGroup)
+                //     .yAxisLabel("Match nb")
+                //     .xAxisLabel("Date")
+                //     .centerBar(true)
+                //     .gap(1)
+                //     .x(d3.time.scale().domain(d3.extent(matches, d => d.match_date)))
+                //     .round(d3.time.month.round)
+                //     .alwaysUseRounding(true)
+                //     .xUnits(d3.time.months)
+                //     .yAxis()
+                //     .tickFormat(v => '');
 
 
                 const matchDimension = ndx.dimension(d => d.match_id);
@@ -244,7 +244,7 @@ function loadAll(url) {
                 //     groups = {},  // Stores all crossfilter groups
                 //     cf;
                     
-                    
+                    // https://github.com/HamsterHuey/intothevoid.io/blob/master/code/2017/dcjs%20sortable%20table/dcjsSortableTable.html
                     // Programmatically insert header labels for table
                     var tableHeader = d3.select(".table-header")
                         .selectAll("th");
