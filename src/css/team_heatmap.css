@@ -47,3 +47,14 @@
 .sticky + .container-fluid {
     padding-top: 85px;
 }
+
+.colors-key img {
+    display: inline-block;
+    width: 50%;
+    height: 10px;
+    margin: 0 5px;
+}
+
+.colors-key {
+
+}

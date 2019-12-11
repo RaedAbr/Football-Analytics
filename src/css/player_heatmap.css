@@ -16,6 +16,11 @@
   padding: 0;
 }
 
+.panel-players .panel-heading {
+	text-align: left;
+	padding-left: 10px;
+}
+
 .position label {
   font-weight: bold;
 }
@@ -37,4 +42,27 @@
 .row > .col-md-6:last-child,
 .row > .col-md-5:last-child {
 	padding-right: 0;
+}
+
+
+
+.table-heatmap {
+  width: 100%;
+}
+
+.col-heatmap-left {
+  padding: 0;
+}
+
+table td[class=col-heatmap-middle] {
+  width: 10px;
+}
+
+table td[class=col-heatmap-middle] img {
+  width: inherit;
+  height: 200px;
+}
+
+.col-heatmap-right {
+  padding: 0;
 }

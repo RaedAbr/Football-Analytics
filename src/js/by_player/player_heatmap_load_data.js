@@ -11,9 +11,9 @@ HTMLSelectElement.prototype.resetNextElements = function() {
 	$("#away-heatmap > svg").empty();
 	$("#home-formation").empty();
 	$("#away-formation").empty();
-	// $("#players-tabs").hide();
+	$("#players-tabs").hide();
 	$("[id^=tr-]").remove();
-	$("input[type=checkbox]").prop("checked", false);
+	$("input[type=checkbox]").prop("checked", false).prop("indeterminate", false);
 };
 
 /**
@@ -118,32 +118,11 @@ function loadPlayers(match) {
 				// let optgroup = $('<optgroup/>')
 				// 	.attr('label', teamInfo.team.name)
 				// 	.appendTo($(playerHtmlSelect));
-				$("#players-heading" + index).html(teamInfo.team.name);
+				$("#players-heading" + index).html(`
+					<input type="checkbox" class="all-players-checkbox" value="all-` + index + `">
+					All players - <strong>` + teamInfo.team.name + `</strong>
+				`);
 				const players = teamInfo.tactics.lineup;
-
-				// function compare( a, b ) {
-				// 	if ( a.position.id < b.position.id ){
-				// 		return -1;
-				// 	}
-				// 	if ( a.position.id > b.position.id ){
-				// 		return 1;
-				// 	}
-				// 	return 0;
-				// }
-				// console.log(players);
-				// console.log(players.sort(compare));
-				// players.sort(compare)
-				// 	.forEach(player =>  {
-				// 		const option = new Option(
-				// 			player.jersey_number + " - " + player.player.name + " (" + POSITIONS_GUIDE[player.position.id].abbreviation + ")",
-				// 			player.player.id
-				// 		);
-				// 		$(option).attr("data-toggle", "tooltip")
-				// 			.attr("title", POSITIONS_GUIDE[player.position.id].name);
-				// 		optgroup.append(option);
-				// 	});
-
-				//////////////////////////// new
 				positions[index] = [
 					{position: "G", players: players.filter(p => p.position.id == 1)},
 					{position: "D", players: players.filter(p => p.position.id >= 2 && p.position.id <= 8)},
@@ -178,50 +157,7 @@ function loadPlayers(match) {
 			});
 
 			$("#players-tabs").show();
-
-			// $(playerHtmlSelect).prop( "disabled", false );
-			//
-			// $(playerHtmlSelect).unbind("change");
-			// $(playerHtmlSelect).change(function () {
-			// 	const playerId = Number($(this).val());
-			// 	if (playerId) {
-			// 		updateD3(events, playerId);
-			// 	}
-			// })
 		});
-	// loadJSON(LINEUP_URL + match.match_id + ".json")
-	// 	.then(lineup => {
-	// 		const homeLineup = lineup.find(team => team.team_id === match.home_team.home_team_id);
-	// 		console.log("home lineup");
-	// 		console.log(homeLineup);
-	// 		let optgroup = $('<optgroup/>')
-	// 			.attr('label', homeLineup.team_name)
-	// 			.appendTo($(playerHtmlSelect));
-	// 		const homePlayers = homeLineup.lineup;
-	// 		homePlayers.sort((a, b) => a.player_name.localeCompare(b.player_name))
-	// 			.forEach(player => optgroup.append(new Option(player.player_name, player.player_id)));
-	//
-	// 		const awayLineup = lineup.find(team => team.team_id === match.away_team.away_team_id);
-	// 		console.log("away lineup");
-	// 		console.log(awayLineup);
-	// 		optgroup = $('<optgroup/>')
-	// 			.attr('label', awayLineup.team_name)
-	// 			.appendTo($(playerHtmlSelect));
-	// 		const awayPlayers = awayLineup.lineup;
-	// 		awayPlayers.sort((a, b) => a.player_name.localeCompare(b.player_name))
-	// 			.forEach(player => optgroup.append(new Option(player.player_name, player.player_id)));
-	//
-	// 		$(playerHtmlSelect).prop( "disabled", false );
-	//
-	// 		const url = EVENT_URL + match.match_id + ".json";
-	// 		$(playerHtmlSelect).unbind("change");
-	// 		$(playerHtmlSelect).change(function () {
-	// 			const playerId = Number($(this).val());
-	// 			if (playerId) {
-	// 				updateD3(url, playerId);
-	// 			}
-	// 		})
-	// 	});
 }
 
 /**
@@ -268,6 +204,15 @@ function onCheckboxChange(index, events){
 }
 
 function addCheckboxesListeners(index, events) {
+	// select all checkbox event
+	const el = $("input[type=checkbox][value=all-" + index + "]");
+	el.unbind("change");
+	el.click(function() {
+		$(".players-tab" + index + " input[name=player]").prop("checked", $(el).prop("checked"));
+		onCheckboxChange(index, events);
+	});
+
+	// select player checkbox event
 	$.each($(".players-tab" + index + " input[name=player]"), (i, el) => {
 		$(el).unbind("change");
 		$(el).change(function () {
@@ -275,6 +220,7 @@ function addCheckboxesListeners(index, events) {
 		});
 	});
 
+	// select position checkbox event
 	$.each($(".players-tab" + index + " input[name=position]"), (i, elPosition) => {
 		$(elPosition).unbind("click");
 		$(elPosition).click(function() {

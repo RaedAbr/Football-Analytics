@@ -153,15 +153,3 @@ table[id^="stats-table"] > tbody > tr > td,
 table[id^="stats-table"] > tfoot > tr > td {
   padding: 0;
 }
-
-.col-heatmap:first-child {
-
-}
-
-.col-heatmap {
-  
-}
-
-.col-heatmap:last-child {
-
-}
