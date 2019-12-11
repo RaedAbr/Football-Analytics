@@ -3,7 +3,7 @@ window.countryChart = dc.rowChart("#country-chart");
 window.competitionChart = dc.rowChart("#competition-chart");
 window.seasonChart = dc.rowChart("#season-chart");
 window.timeChartObs = dc.lineChart("#time-chart-obs");
-window.timeBar = dc.barChart("#time-bar");
+// window.timeBar = dc.barChart("#time-bar");
 window.dataTable = dc.dataTable("#data-table");
 
 /**
@@ -155,7 +155,7 @@ function loadAll(url) {
                     .group(observationGroup)
                     .yAxisLabel("Match nb")
                     .xAxisLabel("Date")
-                    .rangeChart(timeBar)
+                    // .rangeChart(timeBar)
                     .brushOn(false)
                     .mouseZoomable(false)
                     .x(d3.time.scale().domain(d3.extent(matches, d => d.match_date)))
@@ -351,9 +351,9 @@ function loadAll(url) {
 
 
 
-            const distinctByCountry = data.distinct("country_name")
-                .sort((a, b) => a.country_name.localeCompare(b.country_name));
-            console.log(distinctByCountry);
+            // const distinctByCountry = data.distinct("country_name")
+            //     .sort((a, b) => a.country_name.localeCompare(b.country_name));
+            // console.log(distinctByCountry);
 
 
             // distinctByCountry.forEach(competition => countryHtmlSelect.append(new Option(competition.country_name, competition.country_name)));
