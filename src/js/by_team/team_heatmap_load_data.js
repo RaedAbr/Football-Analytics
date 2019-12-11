@@ -231,6 +231,19 @@ function displayHeatmaps(matches, selectedTeam) {
           </div>
           <div class="col-xs-2 stats">
 						<table class="table" id="table-` + match.match_id + `">
+							<thead>
+								<tr>
+									<th colspan="3" class="text-center">Midfield events</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+							<tfoot>
+								<tr>
+									<td>0</td>
+									<td>Total</td>
+									<td>0</td>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
           <div class="col-xs-5 heatmap">            
@@ -291,47 +304,43 @@ function displayHeatmaps(matches, selectedTeam) {
 					(event.position.id >= 9 && event.position.id <= 20));
 				return [data1, data2]
 			})
-			.then(dataArray => {
-				const eventList1 = dataArray[0].map(event => {return {name: event.type.name, id: event.type.id}});
-				const eventList2 = dataArray[1].map(event => {return {name: event.type.name, id: event.type.id}});
+			.then(eventsArray => {
+				buildStatsTable("table-" + match.match_id, eventsArray);
+				// const statEntry = function (eventId, eventName, team1Stat, team2Stat) {
+				// 	return { eventId: eventId, eventName: eventName, team1Stat: team1Stat, team2Stat: team2Stat }
+				// };
+				//
+				// const stats = events.map(ev => {
+				// 	if (ev.id == 42) { // Ball Receipt
+				// 		ev.name = ev.name.slice(0, -1) // remove last char (the star char *)
+				// 	}
+				// 	return statEntry(
+				// 		ev.id,
+				// 		ev.name,
+				// 		eventList1.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0),
+				// 		eventList2.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0)
+				// 	)
+				// }).sort((a, b) => a.eventName.localeCompare(b.eventName));
+				// console.log(stats);
+				//
+				// stats.forEach(stat => {
+				// 	$("#table-" + match.match_id).append(`
+				// 		<tr>
+				// 			<td>` + stat.team1Stat + `</td>
+				// 			<td data-toggle="tooltip" title="` + eventsDescriptions[stat.eventId] + `">` + stat.eventName + `</td>
+				// 			<td>` + stat.team2Stat + `</td>
+				// 		</tr>
+				// 	`);
+				// });
+				// $("#table-" + match.match_id).append(`
+				// 	<tr>
+				// 		<td>` + stats.reduce((acc, stat) => acc + stat.team1Stat, 0) + `</td>
+				// 		<td>Total</td>
+				// 		<td>` + stats.reduce((acc, stat) => acc + stat.team2Stat, 0) + `</td>
+				// 	</tr>
+				// `);
 
-				const events = [...eventList1, ...eventList2].distinct("id");
-
-				const statEntry = function (eventId, eventName, team1Stat, team2Stat) {
-					return { eventId: eventId, eventName: eventName, team1Stat: team1Stat, team2Stat: team2Stat }
-				};
-
-				const stats = events.map(ev => {
-					if (ev.id == 42) { // Ball Receipt
-						ev.name = ev.name.slice(0, -1) // remove last char (the star char *)
-					}
-					return statEntry(
-						ev.id,
-						ev.name,
-						eventList1.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0),
-						eventList2.reduce((acc, event) => acc + (event.id == ev.id ? 1 : 0), 0)
-					)
-				}).sort((a, b) => a.eventName.localeCompare(b.eventName));
-				console.log(stats);
-
-				stats.forEach(stat => {
-					$("#table-" + match.match_id).append(`
-						<tr>
-							<td>` + stat.team1Stat + `</td>
-							<td data-toggle="tooltip" title="` + eventsDescriptions[stat.eventId] + `">` + stat.eventName + `</td>
-							<td>` + stat.team2Stat + `</td>
-						</tr>
-					`);
-				});
-				$("#table-" + match.match_id).append(`
-					<tr>
-						<td>` + stats.reduce((acc, stat) => acc + stat.team1Stat, 0) + `</td>
-						<td>Total</td>
-						<td>` + stats.reduce((acc, stat) => acc + stat.team2Stat, 0) + `</td>
-					</tr>
-				`);
-
-				return dataArray;
+				return eventsArray;
 			})
 			.then(dataArray => {
 				loadD3(match.match_id, dataArray[0], dataArray[1]);

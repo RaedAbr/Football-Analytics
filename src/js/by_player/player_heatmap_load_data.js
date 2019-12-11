@@ -19,13 +19,13 @@ HTMLSelectElement.prototype.resetElement = function() {
  */
 HTMLSelectElement.prototype.resetNextElements = function() {
 	const nextHTMLSelectElements = htmlSelectElements.slice(htmlSelectElements.indexOf(this) + 1);
-	nextHTMLSelectElements.flat(1).forEach(el => el.resetElement())
+	nextHTMLSelectElements.flat(1).forEach(el => el.resetElement());
 	spanElements.forEach(el => el.html("-"));
 	$("#home-heatmap > svg").empty();
 	$("#away-heatmap > svg").empty();
 	$("#home-formation").empty();
 	$("#away-formation").empty();
-	$("#players-tabs").hide();
+	// $("#players-tabs").hide();
 	$("[id^=tr-]").remove();
 	$("input[type=checkbox]").prop("checked", false);
 };
@@ -307,7 +307,6 @@ function loadPlayers(match) {
 					});
 				});
 
-
 				const playersEventsData = events.filter(event => event.location && event.player);
 				addCheckboxesListeners(index, playersEventsData);
 			});
@@ -365,14 +364,16 @@ function loadPlayers(match) {
 let selectedPlayersId = [];
 let selectedPlayersPositions = [];
 let positions = [];
+let eventsArray = [[], []];
 
 function onCheckboxChange(index, events){
+	const allCheckedCheckboxes = $(".players-tab" + index + " input[name=player]:checked");
 	selectedPlayersId[index] =
-		$.map($(".players-tab" + index + " input[name=player]:checked"), function(el) {
+		$.map(allCheckedCheckboxes, function(el) {
 			return $(el).attr("playerId");
 		});
 	selectedPlayersPositions[index] =
-		$.map($(".players-tab" + index + " input[name=player]:checked"), function(el) {
+		$.map(allCheckedCheckboxes, function(el) {
 			return $(el).val();
 		});
 	console.log(selectedPlayersId[index]);
@@ -395,6 +396,8 @@ function onCheckboxChange(index, events){
 	});
 
 	const filteredData = events.filter(event => selectedPlayersId[index].includes(event.player.id.toString()));
+	eventsArray[index] = filteredData;
+	buildStatsTable("stats-table", eventsArray);
 	index == 0 ? updateD3Home(filteredData) : updateD3Away(filteredData);
 }
 

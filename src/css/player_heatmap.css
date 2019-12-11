@@ -26,5 +26,15 @@
 }
 
 #players-tabs {
-	display: none;
+	/*display: none;*/
+}
+
+.row > .col-md-6:first-child,
+.row > .col-md-5:first-child {
+	padding-left: 0;
+}
+
+.row > .col-md-6:last-child,
+.row > .col-md-5:last-child {
+	padding-right: 0;
 }

@@ -30,7 +30,3 @@
 .svg-content {
     display: inline-block;
 }
-
-.col-xs-2.stats, .col-xs-5.heatmap {
-  padding: 0;
-}

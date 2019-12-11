@@ -43,29 +43,29 @@
   </div>
 </div>
 
-<div class="sidebar-container-right">
-  <div class="panel panel-default">
-    <div class="panel-heading">Other informations</div>
-    <table class="table">
-      <tr>
-        <td>Date</td>
-        <td><span id="match_date">-</span> at <span id="kick_off">-</span></td>
-      </tr>
-      <tr>
-        <td>Week</td>
-        <td><span id="match_week">-</span></td>
-      </tr>
-      <tr>
-        <td>Referee</td>
-        <td><span id="referee">-</span></td>
-      </tr>
-      <tr>
-        <td>Stadium</td>
-        <td><span id="stadium">-</span>, <span id="stadium-country">-</span></td>
-      </tr>
-    </table>
-  </div>
-</div>
+<!--<div class="sidebar-container-right">-->
+<!--    <div class="panel panel-default">-->
+<!--      <div class="panel-heading">Other informations</div>-->
+<!--      <table class="table">-->
+<!--        <tr>-->
+<!--          <td>Date</td>-->
+<!--          <td><span id="match_date">-</span> at <span id="kick_off">-</span></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td>Week</td>-->
+<!--          <td><span id="match_week">-</span></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td>Referee</td>-->
+<!--          <td><span id="referee">-</span></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--          <td>Stadium</td>-->
+<!--          <td><span id="stadium">-</span>, <span id="stadium-country">-</span></td>-->
+<!--        </tr>-->
+<!--      </table>-->
+<!--    </div>-->
+<!--</div>-->
 
 <div class="content-container">
   <div class="container-fluid">
@@ -104,10 +104,9 @@
     </div>
 
     <div id="players-tabs" class="form-group text-center">
-      <h4><label for="player">Players</label></h4>
       <div class="row">
-<!-- ************************************************LEFT-->
-        <div class="col-md-6 players-tab0">
+        <!-- ************************************************LEFT-->
+        <div class="col-md-5 players-tab0">
           <div class="panel panel-primary panel-players">
             <div id="players-heading0" class="panel-heading"></div>
             <table class="table text-left">
@@ -152,8 +151,26 @@
             </table>
           </div>
         </div>
-<!-- ************************************************RIGHT-->
-        <div class="col-md-6 players-tab1">
+        <!-- ************************************************MIDDLE -->
+        <div class="col-xs-2 stats">
+          <table class="table" id="stats-table">
+            <thead>
+            <tr>
+              <th colspan="3" class="text-center">Selected players' events</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+            <tr>
+              <td>0</td>
+              <td>Total</td>
+              <td>0</td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- ************************************************RIGHT-->
+        <div class="col-md-5 players-tab1">
           <div class="panel panel-primary panel-players">
             <div id="players-heading1" class="panel-heading"></div>
             <table class="table text-left">
@@ -200,7 +217,6 @@
         </div>
       </div>
 
-      <div class="container-fluid">
       <div class="row">
         <div class="col-md-6">
           <div class="text-center" id="home-heatmap">
@@ -220,7 +236,6 @@
         </div>
       </div>
     </div>
-    </div>
 
   </div>
 </div>
@@ -230,6 +245,7 @@
 <!-- specific plugin -->
 <script src="https://d3js.org/d3-contour.v1.min.js"></script>
 <!--others-->
+<script src="js/utils.js"></script>
 <script src="js/by_player/d3_player_heatmap.js"></script>
 <script src="js/by_player/player_heatmap_load_data.js"></script>
 <script src="js/by_player/player_heatmap.js"></script>

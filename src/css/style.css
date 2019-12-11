@@ -92,7 +92,7 @@
 
 .content-container {
   padding-left: 270px;
-  padding-right: 270px;
+  /*padding-right: 270px;*/
 }
 
 .form-group {
@@ -142,4 +142,8 @@ hr {
 
 svg {
   margin: 10px;
+}
+
+.col-xs-2.stats, .col-xs-5.heatmap {
+  padding: 0;
 }

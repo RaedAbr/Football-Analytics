@@ -22,28 +22,29 @@ $("svg").css({
   backgroundSize: "contain"
 });
 
-function updateD3Home(data) {
-  updateD3(homeSvg, data);
+function updateD3Home(filteredEvents) {
+  updateD3(homeSvg, filteredEvents);
 }
 
-function updateD3Away(data) {
-  updateD3(awaySvg, data);
+function updateD3Away(filteredEvents) {
+  updateD3(awaySvg, filteredEvents);
 }
 
 /**
  * Update svg element with new by_player event
  * @param svg
- * @param data Match events data
+ * @param filteredEvents Match events filteredEvents
  * @param bandwidth
  * @param valueScale
  */
-function updateD3(svg, data, bandwidth=10, valueScale=100) {
+function updateD3(svg, filteredEvents, bandwidth=10, valueScale=100) {
   // Clear svg
   svg.selectAll("g").remove();
 
-  // data = data.filter(event => event.location && event.player)
+  // filteredEvents = filteredEvents.filter(event => event.location && event.player)
   //   .filter(event => event.player.id === playerId);
-  console.log(data);
+  console.log("Represented events");
+  console.log(filteredEvents);
 
   const maxX = 120;
   const maxY = 80;
@@ -69,17 +70,14 @@ function updateD3(svg, data, bandwidth=10, valueScale=100) {
     .domain([0, 0.25, 0.5, 0.75, 1]) // Points per square pixel.
     .range(["rgba(0,0,255,.5)", "rgba(255,233,0,0.5)", "rgba(255,111,0,0.5)", "rgba(255,0,0,0.5)"]);
 
-  // compute the density data
+  // compute the density filteredEvents
   const densityData = d3.contourDensity()
-    .x(function (d) {
-      return x(d.location[0]);
-    })
-    .y(function (d) {
-      return y(d.location[1]);
-    })
+    .x(function (d) { return x(d.location[0]); })
+    .y(function (d) { return y(d.location[1]); })
+    .weight(1)
     .size([defaultWidth, defaultHeight])
     .bandwidth(bandwidth)
-    (data);
+    (filteredEvents);
 
   // show the shape!
   svg.insert("g", "g")
