@@ -95,7 +95,8 @@ function displayHeatmaps(matches, selectedTeam) {
 								<span style="font-size: 30px">&#8680;</span>
 								<span style="position: relative; top: -4px;">Attack</span>
 							</div>
-						</div> 
+						</div>
+						<div class="colors-key">Low<img src="img/gradient_h.png">High</div>
           </div>
           <div class="col-xs-2 stats">
 						<table class="table" id="stats-table-` + match.match_id + `">
@@ -121,6 +122,7 @@ function displayHeatmaps(matches, selectedTeam) {
 								<span style="position: relative; top: -4px;">Attack</span>
 							</div>
 						</div>
+						<div class="colors-key">Low<img src="img/gradient_h.png">High</div>
           </div>
         </div>
 			</div>
