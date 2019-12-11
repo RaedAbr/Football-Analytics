@@ -153,3 +153,42 @@ table[id^="stats-table"] > tbody > tr > td,
 table[id^="stats-table"] > tfoot > tr > td {
   padding: 0;
 }
+
+#page-filter {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 999;
+  color: white;
+  display: none;
+}
+
+#filter-hint-comment {
+  position: fixed;
+  margin: 0 auto;
+  width: fit-content;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+#page-filter input[type=button] {
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+#filter-hint-menu-target {
+  padding: 5px;
+  border: solid #151515;
+}
+
+#filter-hint-menu, #filter-hint-team {
+  position: fixed;
+  border: solid white;
+}
+
+#filter-arrow {
+  position: fixed;
+  display: none;
+}

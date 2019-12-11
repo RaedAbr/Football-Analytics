@@ -15,30 +15,39 @@
   <link rel="stylesheet" href="css/team_heatmap.css">
 </head>
 <body>
+<div id="page-filter">
+  <h1 id="filter-hint-comment">Start with selecting the country, competition, season and then the team<br>
+    <input type="button" id="filter-hint-ok" class="btn btn-default" value="OK"></h1>
+  <div id="filter-hint-menu"></div>
+  <div id="filter-hint-team"></div>
+  <img id="filter-arrow" src="img/arrow.png">
+</div>
 <div class="sidebar-container-left">
   <div class="sidebar-logo">
     Football Analytics
   </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="country"><i class="fas fa-flag"></i> Country</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="country" id="country" class="form-control">
-    </select>
-  </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="competition"><i class="fas fa-trophy"></i> Competition</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="competition" id="competition" class="form-control">
-    </select>
-  </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="season"><i class="fas fa-calendar-check"></i> Season</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="season" id="season" class="form-control">
-    </select>
+  <div id="filter-hint-menu-target">
+    <ul class="sidebar-navigation">
+      <li class="header"><label for="country"><i class="fas fa-flag"></i> Country</label></li>
+    </ul>
+    <div class="form-group">
+      <select name="country" id="country" class="form-control">
+      </select>
+    </div>
+    <ul class="sidebar-navigation">
+      <li class="header"><label for="competition"><i class="fas fa-trophy"></i> Competition</label></li>
+    </ul>
+    <div class="form-group">
+      <select name="competition" id="competition" class="form-control">
+      </select>
+    </div>
+    <ul class="sidebar-navigation">
+      <li class="header"><label for="season"><i class="fas fa-calendar-check"></i> Season</label></li>
+    </ul>
+    <div class="form-group">
+      <select name="season" id="season" class="form-control">
+      </select>
+    </div>
   </div>
 </div>
 
@@ -69,8 +78,8 @@
 <script>
   window.onscroll = function() {myFunction()};
 
-  var navbar = document.getElementById("page-header");
-  var sticky = navbar.offsetTop;
+  let navbar = document.getElementById("page-header");
+  let sticky = navbar.offsetTop;
 
   function myFunction() {
     if (window.pageYOffset >= sticky) {
@@ -79,6 +88,54 @@
       navbar.classList.remove("sticky");
     }
   }
+
+  // this is the first time
+  if (!localStorage.noFirstVisit) {
+    document.getElementById("page-filter").style.display = "block";
+
+    // check this flag for escaping this "if" block next time
+    localStorage.noFirstVisit = "1";
+
+    let filterHintMenu = document.getElementById("filter-hint-menu");
+    let filterHintMenuTarget = document.getElementById("filter-hint-menu-target");
+
+    let filterHintTeam = document.getElementById("filter-hint-team");
+    let filterHintTeamTarget = document.getElementById("team");
+
+    let filterHintArrow = document.getElementById("filter-arrow");
+
+    let filterHintComment = document.getElementById("filter-hint-comment");
+
+    filterHintMenu.style.width = filterHintMenuTarget.clientWidth + "px";
+    filterHintMenu.style.height = filterHintMenuTarget.clientHeight + "px";
+    filterHintMenu.style.top = filterHintMenuTarget.offsetTop + 3 + "px";
+    filterHintMenu.style.left = filterHintMenuTarget.offsetLeft + 3 + "px";
+
+    filterHintTeam.style.width = filterHintTeamTarget.clientWidth + 17 + "px";
+    filterHintTeam.style.height = filterHintTeamTarget.clientHeight + 16 + "px";
+    filterHintTeam.style.top = filterHintTeamTarget.offsetTop + 3 + "px";
+    filterHintTeam.style.left = filterHintTeamTarget.offsetLeft + 283 + "px";
+
+    filterHintArrow.style.left = filterHintMenu.clientWidth + "px";
+    filterHintArrow.style.top = filterHintTeamTarget.offsetTop + filterHintTeamTarget.clientHeight + 10 + "px";
+    filterHintArrow.style.display = "block";
+
+    filterHintComment.style.top = filterHintArrow.offsetTop + filterHintArrow.clientHeight + 30 + "px";
+
+    document.getElementsByTagName("body")[0].onresize = function () {
+      filterHintTeam.style.width = filterHintTeamTarget.clientWidth + 17 + "px";
+    };
+
+    document.getElementById("filter-hint-ok").onclick = function () {
+      document.getElementById("page-filter").style.display = "none";
+    }
+  }
+
+  $(document).keydown(function(e) {
+    if (e.keyCode == 82 && e.ctrlKey) {
+      localStorage.clear();
+    }
+  });
 </script>
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
