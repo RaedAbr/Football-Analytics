@@ -8,21 +8,79 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <!-- dc.js styles -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.9/dc.css" rel="stylesheet">
+  <!-- data table styles -->
+  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet">
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel='stylesheet' href='css/fontawesome-free-5.11.2/all.css'>
-  <link rel="stylesheet" href="css/style.css">
+  <!-- <link rel="stylesheet" href="css/style.css"> -->
   <style>
+    /* table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc_disabled:after,
+    table.dataTable thead .sorting_asc_disabled:before,
+    table.dataTable thead .sorting_desc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc_disabled:after,
+    table.dataTable thead .sorting_desc_disabled:before {
+      bottom: .5em;
+    } */
+
+
     .dc-table-group {
       display:none
+    }
+    tr td {
+      text-align: left;
     }
   </style>
 </head>
 <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Football Analytics</a>
+          </div>
+      
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Interactive Data<span class="sr-only">(current)</span></a></li>
+              <li><a href="./player_heatmap.html">Players</a></li>
+              <li><a href="./team_heatmap.html">Team</a></li>
+            </ul>
+            <!-- <ul class="nav navbar-nav navbar-right">
+              <li><a href="#">Link</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </li>
+            </ul> -->
+          </div><!-- /.navbar-collapse -->
+        </div>
+
 
 <div class="content-container">
+  
   <div class="container-fluid">
     <div class="row text-center">
     <div class="col-md-12">
@@ -103,16 +161,29 @@
                  style="display: none;"> reset</a>
               <span class="reset" style="display: none;">Current filter: <span class="filter"></span></span>
             </div>
-            <div class='col-md-12' id="time-bar">
+            <!-- <div class='col-md-12' id="time-bar">
               <strong>Select time range on this chart</strong>
   
-            </div>
+            </div> -->
 
-            <div class='col-md-12 text-left'>
+            <!-- <div class='col-md-12 text-left'>
               <table class='table table-hover' id='data-table'>
   
               </table>
-            </div>
+            </div> -->
+
+            <table class='table table-hover table-striped table-bordered' id='data-table'>
+                <thead>
+                  <tr class='table-header'>
+                    <!-- Programmatically insert table headers here -->
+                  </tr>
+                </thead>
+              </table>
+              <div class="col-sm-12" id="paging">
+                Showing <span id="begin"></span>-<span id="end"></span> of <span id="size"></span>
+                <input id="Prev" class="btn btn-secondary" role="button" type="button" value="Prev" onclick="javascript:prevPage()" />
+                <input id="Next" class="btn btn-secondary" role="button" type="button" value="Next" onclick="javascript:nextPage()"/>
+              </div>
   
             
         </div>
@@ -124,7 +195,6 @@
 <!-- dc -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.9/dc.js"></script>
 <!--others-->
-<!-- <script src="js/by_player/d3_player_heatmap.js"></script> -->
 <script src="js/interactive_data/load_data.js"></script>
 <script src="js/interactive_data/interactive_data.js"></script>
 </body>
