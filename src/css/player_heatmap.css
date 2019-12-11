@@ -26,7 +26,7 @@
 }
 
 #players-tabs {
-	/*display: none;*/
+	display: none;
 }
 
 .row > .col-md-6:first-child,

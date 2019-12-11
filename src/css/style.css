@@ -147,3 +147,21 @@ svg {
 .col-xs-2.stats, .col-xs-5.heatmap {
   padding: 0;
 }
+
+table[id^="stats-table"] > thead > tr > th,
+table[id^="stats-table"] > tbody > tr > td,
+table[id^="stats-table"] > tfoot > tr > td {
+  padding: 0;
+}
+
+.col-heatmap:first-child {
+
+}
+
+.col-heatmap {
+  
+}
+
+.col-heatmap:last-child {
+
+}

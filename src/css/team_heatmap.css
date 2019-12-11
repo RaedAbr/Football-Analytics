@@ -1,22 +1,22 @@
 .content-container {
-  padding-right: 0;
+    padding-right: 0;
 }
 
 .container-fluid {
-  padding-top: 20px;
+    padding-top: 20px;
 }
 
 .panel-primary {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .panel-lost>.panel-heading {
-  background-color: #b73333;
-  border-color: #b73333;
+    background-color: #b73333;
+    border-color: #b73333;
 }
 
 .panel-lost {
-  border-color: #b73333;
+    border-color: #b73333;
 }
 
 .svg-container {
@@ -29,4 +29,21 @@
 }
 .svg-content {
     display: inline-block;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+#page-header {
+    margin: 0;
+    padding-left: 20px;
+    background-color: #eeeeee;
+}
+
+.sticky + .container-fluid {
+    padding-top: 85px;
 }

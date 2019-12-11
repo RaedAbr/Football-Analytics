@@ -1,19 +1,5 @@
 /**
  * Method of HTMLSelectElement class
- * Reinitialize htmlSelectElement by clearing its content and making it disabled
- */
-HTMLSelectElement.prototype.resetElement = function() {
-	const id = this.id;
-	const text = id.replace("_", " ");
-	// "this" => an JavaScript DOM object
-	// "$(this)" => convert "this" to a JQuery object
-	$(this).empty();
-	$(this).append(new Option("Select " + text + "...", NONE));
-	$(this).prop("disabled", true);
-};
-
-/**
- * Method of HTMLSelectElement class
  * Reinitialize all next htmlSelectElement of the current htmlSelectElement.
  * All elements are saved in "htmlSelectElements" array
  */
@@ -31,125 +17,6 @@ HTMLSelectElement.prototype.resetNextElements = function() {
 };
 
 /**
- * Method of Array class
- * Get unique objects in array according to given property name
- * @param {string} prop Property name
- * @returns {Array} Array of unique objects
- * @example
- * 		const a = [{b:"abc", c:"def"}, {b:"has", c:"def"}, {b:"has", c:"lol"}]
- * 		const result = a.distinct("c")
- * 		// result will be [{b:"abc", c:"def"}, {b:"has", c:"lol"}]
- */
-Array.prototype.distinct = function(prop) {
-	return this.filter((obj, pos, arr) => {
-		return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
-	});
-};
-
-/**
- * Promise that load json data from given url
- * @param {string} url Given url
- * @returns {Promise<any>}
- */
-async function loadJSON(url) {
-	return fetch(url)
-		.then(response => {
-			return response.json();
-		})
-		.catch(err => {
-			console.log(err);
-		})
-}
-
-/**
- * Load competitions data and get countries names and ids in corresponding htmlSelectElement
- * @param {string} url Url to competitions data
- */
-function loadCountries(url) {
-	loadJSON(url)
-		.then(data => {
-			console.log(data);
-
-			const distinctByCountry = data.distinct("country_name")
-				.sort((a, b) => a.country_name.localeCompare(b.country_name));
-			console.log(distinctByCountry);
-
-			distinctByCountry.forEach(competition => countryHtmlSelect.append(new Option(competition.country_name, competition.country_name)));
-			$(countryHtmlSelect).prop("disabled", false);
-
-			// event
-			$(countryHtmlSelect).unbind("change");
-			$(countryHtmlSelect).change(function (e) {
-				e.stopImmediatePropagation();
-				countryHtmlSelect.resetNextElements();
-				if ($(this).val() !== NONE) {
-					const competitionsByCountry = data.filter(competition => competition.country_name === $(this).val());
-					loadCompetitions(competitionsByCountry);
-				}
-			});
-		});
-}
-
-/**
- * Get competitions names and ids in corresponding htmlSelectElement
- * @param data Array containing competitions
- */
-function loadCompetitions(data) {
-	console.log(data);
-
-	const distinctByCompetition = data.distinct("competition_id")
-		.sort((a, b) => a.competition_name.localeCompare(b.competition_name));
-	console.log(distinctByCompetition);
-
-
-	distinctByCompetition.forEach(competition =>
-		competitionHtmlSelect.append(new Option(
-			competition.competition_name + " (" + competition.competition_gender + ")",
-			competition.competition_id
-		)));
-	$(competitionHtmlSelect).prop( "disabled", false );
-
-	// event
-	$(competitionHtmlSelect).unbind("change");
-	$(competitionHtmlSelect).change(function (e) {
-		e.stopImmediatePropagation();
-		competitionHtmlSelect.resetNextElements();
-		const competitionId = Number($(this).val());
-		if (competitionId) {
-			const competitionsById = data.filter(competition => competition.competition_id === competitionId);
-			loadSeasons(competitionsById);
-		}
-	});
-}
-
-/**
- * Get seasons names and ids in corresponding htmlSelectElement
- * @param data Array containing competitions
- */
-function loadSeasons(data) {
-	console.log(data);
-
-	const distinctBySeason = data.distinct("season_id")
-		.sort((a, b) => a.season_name.localeCompare(b.season_name) * -1); // -1 to invert the order
-	console.log(distinctBySeason);
-
-	distinctBySeason.forEach(competition => seasonHtmlSelect.append(new Option(competition.season_name, competition.season_id)));
-	$(seasonHtmlSelect).prop( "disabled", false );
-
-	// event
-	$(seasonHtmlSelect).unbind("change");
-	$(seasonHtmlSelect).change(function (e) {
-		e.stopImmediatePropagation();
-		seasonHtmlSelect.resetNextElements();
-		const seasonId = Number($(this).val());
-		if (seasonId) {
-			const competitionsBySeason = data.find(competition => competition.season_id === seasonId);
-			loadHomeTeams(competitionsBySeason);
-		}
-	});
-}
-
-/**
  * Load all maches in a competition and get home teams names and ids in corresponding htmlSelectElement
  * @param competition Specific competitions
  */
@@ -160,7 +27,6 @@ function loadHomeTeams(competition) {
 	loadJSON(url)
 		.then(matches => {
 			console.log(matches);
-
 			const distinctHomeTeams = matches.map(match => {
 				return {
 					team_id: match.home_team.home_team_id,

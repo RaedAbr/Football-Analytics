@@ -22,4 +22,4 @@ const
  */
 countryHtmlSelect.resetElement();
 countryHtmlSelect.resetNextElements();
-loadCountries(COMPETITIONS_URL);
+loadCountries(COMPETITIONS_URL, BY_TEAM_PAGE);
