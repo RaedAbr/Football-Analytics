@@ -1,0 +1,68 @@
+.panel-players {
+	margin-top: 0;
+}
+
+.panel-players .checkbox {
+  margin: 0;
+	padding: 0 10px;
+}
+
+.panel-players .checkbox.player {
+	padding-left: 30px;
+}
+
+.panel-players table>tbody>tr>td,
+.panel-players .panel-heading {
+  padding: 0;
+}
+
+.panel-players .panel-heading {
+	text-align: left;
+	padding-left: 10px;
+}
+
+.position label {
+  font-weight: bold;
+}
+
+.position {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+#players-tabs {
+	display: none;
+}
+
+.row > .col-md-6:first-child,
+.row > .col-md-5:first-child {
+	padding-left: 0;
+}
+
+.row > .col-md-6:last-child,
+.row > .col-md-5:last-child {
+	padding-right: 0;
+}
+
+
+
+.table-heatmap {
+  width: 100%;
+}
+
+.col-heatmap-left {
+  padding: 0;
+}
+
+table td[class=col-heatmap-middle] {
+  width: 10px;
+}
+
+table td[class=col-heatmap-middle] img {
+  width: inherit;
+  height: 200px;
+}
+
+.col-heatmap-right {
+  padding: 0;
+}

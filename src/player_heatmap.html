@@ -12,57 +12,48 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel='stylesheet' href='css/fontawesome-free-5.11.2/all.css'>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/player_heatmap.css">
 </head>
 <body>
-
+<div id="page-filter">
+  <h1 id="filter-hint-comment">Start with selecting the country, competition, season and then the team<br>
+    <input type="button" id="filter-hint-ok" class="btn btn-default" value="OK"><br>
+    <div class="checkbox">
+      <label style="font-size: 19px;">
+        <input id="filter-checkbox" type="checkbox"> Skip next time
+      </label>
+    </div>
+    <div id="filter-hint-menu"></div>
+    <div id="filter-hint-home-team"></div>
+    <div id="filter-hint-away-team"></div>
+    <img id="filter-arrow" src="img/arrow.png">
+</div>
 <div class="sidebar-container-left">
   <div class="sidebar-logo">
-    Football Analytics
+    <a href="interactive_data.html">Football Analytics</a>
   </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="country"><i class="fas fa-flag"></i> Country</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="country" id="country" class="form-control">
-    </select>
-  </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="competition"><i class="fas fa-trophy"></i> Competition</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="competition" id="competition" class="form-control">
-    </select>
-  </div>
-  <ul class="sidebar-navigation">
-    <li class="header"><label for="season"><i class="fas fa-calendar-check"></i> Season</label></li>
-  </ul>
-  <div class="form-group">
-    <select name="season" id="season" class="form-control">
-    </select>
-  </div>
-</div>
-
-<div class="sidebar-container-right">
-  <div class="panel panel-default">
-    <div class="panel-heading">Other informations</div>
-    <table class="table">
-      <tr>
-        <td>Date</td>
-        <td><span id="match_date">-</span> at <span id="kick_off">-</span></td>
-      </tr>
-      <tr>
-        <td>Week</td>
-        <td><span id="match_week">-</span></td>
-      </tr>
-      <tr>
-        <td>Referee</td>
-        <td><span id="referee">-</span></td>
-      </tr>
-      <tr>
-        <td>Stadium</td>
-        <td><span id="stadium">-</span>, <span id="stadium-country">-</span></td>
-      </tr>
-    </table>
+  <div id="filter-hint-menu-target">
+    <ul class="sidebar-navigation">
+      <li class="header"><label for="country"><i class="fas fa-flag"></i> Country</label></li>
+    </ul>
+    <div class="form-group">
+      <select name="country" id="country" class="form-control">
+      </select>
+    </div>
+    <ul class="sidebar-navigation">
+      <li class="header"><label for="competition"><i class="fas fa-trophy"></i> Competition</label></li>
+    </ul>
+    <div class="form-group">
+      <select name="competition" id="competition" class="form-control">
+      </select>
+    </div>
+    <ul class="sidebar-navigation">
+      <li class="header"><label for="season"><i class="fas fa-calendar-check"></i> Season</label></li>
+    </ul>
+    <div class="form-group">
+      <select name="season" id="season" class="form-control">
+      </select>
+    </div>
   </div>
 </div>
 
@@ -102,33 +93,240 @@
       </div>
     </div>
 
-    <div class="form-group text-center">
-      <h4><label for="player">Player</label></h4>
-      <select name="player" id="player" class="form-control">
-      </select>
-    </div>
-
-    <div class="container-fluid">
+    <div id="players-tabs" class="form-group text-center">
       <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <div class="text-center" id="heatmap">
-            <div class="text-left attack-arrow">
-              <span style="font-size: 30px">&#8680;</span>
-              <span style="position: relative; top: -4px;">Attack</span>
-            </div>
+        <!-- ************************************************LEFT-->
+        <div class="col-md-5 players-tab0">
+          <div class="panel panel-primary panel-players">
+            <div id="players-heading0" class="panel-heading"></div>
+            <table class="table text-left">
+              <tbody>
+              <tr id="G-checkbox0">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="G">Goal keeper
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="D-checkbox0">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="D">Defenders
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="M-checkbox0">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="M">Midfielders
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="S-checkbox0">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="S">Strikers
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+        <!-- ************************************************MIDDLE -->
+        <div class="col-xs-2 stats">
+          <table class="table" id="stats-table">
+            <thead>
+            <tr>
+              <th colspan="3" class="text-center">Selected players' events</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+            <tr>
+              <td>0</td>
+              <td>Total</td>
+              <td>0</td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- ************************************************RIGHT-->
+        <div class="col-md-5 players-tab1">
+          <div class="panel panel-primary panel-players">
+            <div id="players-heading1" class="panel-heading"></div>
+            <table class="table text-left">
+              <tbody>
+              <tr id="G-checkbox1">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="G">Goal keeper
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="D-checkbox1">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="D">Defenders
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="M-checkbox1">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="M">Midfielders
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr id="S-checkbox1">
+                <td>
+                  <div class="checkbox position">
+                    <label>
+                      <input type="checkbox" name="position" value="S">Strikers
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <table class="table-heatmap">
+          <tr>
+            <td>
+              <div class="col-md-12 col-heatmap-left">
+                <div class="text-center" id="home-heatmap">
+                  <div class="text-left attack-arrow">
+                    <span style="font-size: 30px">&#8680;</span>
+                    <span style="position: relative; top: -4px;">Attack</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="col-heatmap-middle">
+              High
+              <img src="img/gradient.png">
+              Low
+            </td>
+            <td>
+              <div class="col-md-12 col-heatmap-right">
+                <div class="text-center" id="away-heatmap">
+                  <div class="text-left attack-arrow">
+                    <span style="font-size: 30px">&#8680;</span>
+                    <span style="position: relative; top: -4px;">Attack</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
 
   </div>
 </div>
 
+<script>
+
+  let filterHintMenu = document.getElementById("filter-hint-menu");
+  let filterHintMenuTarget = document.getElementById("filter-hint-menu-target");
+
+  let filterHintHomeTeam = document.getElementById("filter-hint-home-team");
+  let filterHintHomeTeamTarget = document.getElementById("home_team");
+
+  let filterHintAwayTeam = document.getElementById("filter-hint-away-team");
+  let filterHintAwayTeamTarget = document.getElementById("away_team");
+
+  let filterHintArrow = document.getElementById("filter-arrow");
+
+  let filterHintComment = document.getElementById("filter-hint-comment");
+
+  if (!localStorage.skipHint) {
+    document.getElementById("page-filter").style.display = "block";
+
+    filterHintMenu.style.width = filterHintMenuTarget.clientWidth + "px";
+    filterHintMenu.style.height = filterHintMenuTarget.clientHeight + "px";
+    filterHintMenu.style.top = offset(filterHintMenuTarget).top + "px";
+    filterHintMenu.style.left = offset(filterHintMenuTarget).left + 3 + "px";
+
+    filterHintHomeTeam.style.width = filterHintHomeTeamTarget.clientWidth + 17 + "px";
+    filterHintHomeTeam.style.height = filterHintHomeTeamTarget.clientHeight + 16 + "px";
+    filterHintHomeTeam.style.top = offset(filterHintHomeTeamTarget).top - 7 + "px";
+    filterHintHomeTeam.style.left = offset(filterHintHomeTeamTarget).left - 8 + "px";
+
+    filterHintAwayTeam.style.width = filterHintAwayTeamTarget.clientWidth + 17 + "px";
+    filterHintAwayTeam.style.height = filterHintAwayTeamTarget.clientHeight + 16 + "px";
+    filterHintAwayTeam.style.top = offset(filterHintAwayTeamTarget).top - 7 + "px";
+    filterHintAwayTeam.style.left = offset(filterHintAwayTeamTarget).left - 8 + "px";
+
+    filterHintArrow.style.left = filterHintMenu.clientWidth + "px";
+    filterHintArrow.style.top = offset(filterHintHomeTeamTarget).top + filterHintHomeTeamTarget.clientHeight + 10 + "px";
+    filterHintArrow.style.display = "block";
+
+    filterHintComment.style.top = offset(filterHintArrow).top + filterHintArrow.clientHeight + 30 + "px";
+  }
+
+  document.getElementsByTagName("body")[0].onresize = function () {
+    filterHintHomeTeam.style.width = filterHintHomeTeamTarget.clientWidth + 17 + "px";
+    filterHintAwayTeam.style.width = filterHintAwayTeamTarget.clientWidth + 17 + "px";
+    filterHintAwayTeam.style.top = offset(filterHintAwayTeamTarget).top - 7 + "px";
+    filterHintAwayTeam.style.left = offset(filterHintAwayTeamTarget).left - 8 + "px";
+  };
+
+  document.getElementById("filter-hint-ok").onclick = function () {
+    document.getElementById("page-filter").style.display = "none";
+    if (document.getElementById("filter-checkbox").checked) {
+      localStorage.skipHint = "skip";
+    }
+  };
+
+  function offset(el) {
+    const rect = el.getBoundingClientRect(),
+      scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+      scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return {
+      top: rect.top + scrollTop,
+      left: rect.left + scrollLeft
+    }
+  }
+
+  $(document).keydown(function(e) {
+    // ctrl + R => clear localstorage
+    if (e.keyCode == 82 && e.ctrlKey) {
+      localStorage.clear();
+      return
+    }
+    // ESCAPE or ENTER
+    if (e.keyCode === 27 || e.keyCode === 13) {
+      document.getElementById("page-filter").style.display = "none";
+      return;
+    }
+  });
+</script>
+
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 <!-- specific plugin -->
 <script src="https://d3js.org/d3-contour.v1.min.js"></script>
 <!--others-->
+<script src="js/common.js"></script>
 <script src="js/by_player/d3_player_heatmap.js"></script>
 <script src="js/by_player/player_heatmap_load_data.js"></script>
 <script src="js/by_player/player_heatmap.js"></script>

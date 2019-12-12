@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Interactive Data</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- dc.js styles -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.9/dc.css" rel="stylesheet">
+  <!-- data table styles -->
+  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel='stylesheet' href='css/fontawesome-free-5.11.2/all.css'>
+  <link rel='stylesheet' href='css/interactive_data.css'>
+  <style>
+    .dc-table-group {
+      display:none
+    }
+    tr td {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Football Analytics</a>
+  </div>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Interactive Data<span class="sr-only">(current)</span></a></li>
+      <li><a href="./player_heatmap.html">Players</a></li>
+      <li><a href="./team_heatmap.html">Team</a></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+
+</nav>
+
+<div class="content-container" style="padding-top: 50px; margin-bottom: 50px">
+
+  <div class="container-fluid">
+    <div class="row text-center">
+      <div class="col-md-12">
+        <h1>Interactive Data</h1>
+      </div>
+
+    </div>
+  </div>
+  <div class='container' style='font: 12px sans-serif;'>
+    <div class="row text-center">
+
+      <div class="col-md-12 data-count" style="margin-bottom: 20px;">
+        <span>
+          <span style="color:blue" class="filter-count">a</span>
+                  selected out of
+                  <span style="color:blue" class="total-count">b</span>
+                  matches
+          <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+        </span>
+      </div>
+
+      <div class='col-md-4' id='country-chart'>
+
+        <strong>Countries</strong>
+        <a class="reset"
+           href="javascript:countryChart.filterAll();dc.redrawAll();"
+           style="display: none;">
+          reset
+        </a>
+
+        <div class="clearfix"></div>
+      </div>
+
+
+      <div class='col-md-4' id='competition-chart'>
+
+        <strong>Competitions</strong>
+        <a class="reset"
+           href="javascript:competitionChart.filterAll();dc.redrawAll();"
+           style="display: none;">
+          reset
+        </a>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <div class='col-md-4' id='season-chart'>
+
+        <strong>Seasons</strong>
+        <a class="reset"
+           href="javascript:seasonChart.filterAll();dc.redrawAll();"
+           style="display: none;">
+          reset
+        </a>
+
+        <div class="clearfix"></div>
+      </div>
+    </div>
+
+    <div class='col-md-4 text-center'>
+      Match nb
+    </div>
+    <div class='col-md-4 text-center'>
+      Match nb
+    </div>
+    <div class='col-md-4 text-center'>
+      Match nb
+    </div>
+    <div class='col-md-12 text-center' style="margin-top: 20px;" id="time-chart-obs">
+      <strong style="text-align: left;">Matches grouped by month</strong></br>
+      <a class="reset"
+         href="javascript:timeChartObs.filterAll();timeBar.filterAll();dc.redrawAll();"
+         style="display: none;"> reset</a>
+      <span class="reset" style="display: none;">Current filter: <span class="filter"></span></span>
+    </div>
+
+    <table class='table table-hover table-striped table-bordered' id='data-table'>
+      <thead>
+      <tr class='table-header'>
+        <!-- Programmatically insert table headers here -->
+      </tr>
+      </thead>
+    </table>
+    <div class="col-sm-12 text-center" id="paging">
+      Showing <span id="begin"></span>-<span id="end"></span> of <span id="size"></span>
+      <input id="Prev" class="btn btn-secondary" role="button" type="button" value="Prev" onclick="javascript:prevPage()" />
+      <input id="Next" class="btn btn-secondary" role="button" type="button" value="Next" onclick="javascript:nextPage()"/>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.js"></script>
+<!-- dc -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.9/dc.js"></script>
+<!--others-->
+<script src="js/interactive_data/load_data.js"></script>
+<script src="js/interactive_data/interactive_data.js"></script>
+</body>
+</html>
