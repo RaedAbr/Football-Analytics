@@ -36,6 +36,10 @@
   color: white;
 }
 
+.sidebar-logo img {
+  width: 27px;
+}
+
 .sidebar-logo a:hover, .sidebar-logo a:focus {
   text-decoration: none;
   cursor: pointer;
