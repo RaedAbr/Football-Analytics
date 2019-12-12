@@ -25,9 +25,20 @@
 }
 
 .sidebar-logo {
-  padding: 10px 15px 10px 30px;
+  padding: 10px 0;
   font-size: 20px;
   background-color: #337ab7;
+  text-align: center;
+
+}
+
+.sidebar-logo a {
+  color: white;
+}
+
+.sidebar-logo a:hover, .sidebar-logo a:focus {
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .sidebar-navigation {
@@ -82,7 +93,7 @@
 .sidebar-navigation .header {
   font-size: 12px;
   text-transform: uppercase;
-  background-color: #151515;
+  background-color: #1a1a1a;
   padding: 10px 15px 0 30px;
 }
 
@@ -180,7 +191,7 @@ table[id^="stats-table"] > tfoot > tr > td {
 
 #filter-hint-menu-target {
   padding: 5px;
-  border: solid #151515;
+  border: solid #1a1a1a;
 }
 
 #filter-hint-menu, #filter-hint-home-team, #filter-hint-away-team {

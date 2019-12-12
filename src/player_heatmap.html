@@ -17,15 +17,20 @@
 <body>
 <div id="page-filter">
   <h1 id="filter-hint-comment">Start with selecting the country, competition, season and then the team<br>
-    <input type="button" id="filter-hint-ok" class="btn btn-default" value="OK"></h1>
-  <div id="filter-hint-menu"></div>
-  <div id="filter-hint-home-team"></div>
-  <div id="filter-hint-away-team"></div>
-  <img id="filter-arrow" src="img/arrow.png">
+    <input type="button" id="filter-hint-ok" class="btn btn-default" value="OK"><br>
+    <div class="checkbox">
+      <label style="font-size: 19px;">
+        <input id="filter-checkbox" type="checkbox"> Skip next time
+      </label>
+    </div>
+    <div id="filter-hint-menu"></div>
+    <div id="filter-hint-home-team"></div>
+    <div id="filter-hint-away-team"></div>
+    <img id="filter-arrow" src="img/arrow.png">
 </div>
 <div class="sidebar-container-left">
   <div class="sidebar-logo">
-    Football Analytics
+    <a href="interactive_data.html">Football Analytics</a>
   </div>
   <div id="filter-hint-menu-target">
     <ul class="sidebar-navigation">
@@ -239,25 +244,22 @@
 </div>
 
 <script>
-  // this is the first time
-  if (!localStorage.noFirstVisit) {
+
+  let filterHintMenu = document.getElementById("filter-hint-menu");
+  let filterHintMenuTarget = document.getElementById("filter-hint-menu-target");
+
+  let filterHintHomeTeam = document.getElementById("filter-hint-home-team");
+  let filterHintHomeTeamTarget = document.getElementById("home_team");
+
+  let filterHintAwayTeam = document.getElementById("filter-hint-away-team");
+  let filterHintAwayTeamTarget = document.getElementById("away_team");
+
+  let filterHintArrow = document.getElementById("filter-arrow");
+
+  let filterHintComment = document.getElementById("filter-hint-comment");
+
+  if (!localStorage.skipHint) {
     document.getElementById("page-filter").style.display = "block";
-
-    // check this flag for escaping this "if" block next time
-    localStorage.noFirstVisit = "1";
-
-    let filterHintMenu = document.getElementById("filter-hint-menu");
-    let filterHintMenuTarget = document.getElementById("filter-hint-menu-target");
-
-    let filterHintHomeTeam = document.getElementById("filter-hint-home-team");
-    let filterHintHomeTeamTarget = document.getElementById("home_team");
-
-    let filterHintAwayTeam = document.getElementById("filter-hint-away-team");
-    let filterHintAwayTeamTarget = document.getElementById("away_team");
-
-    let filterHintArrow = document.getElementById("filter-arrow");
-
-    let filterHintComment = document.getElementById("filter-hint-comment");
 
     filterHintMenu.style.width = filterHintMenuTarget.clientWidth + "px";
     filterHintMenu.style.height = filterHintMenuTarget.clientHeight + "px";
@@ -279,18 +281,21 @@
     filterHintArrow.style.display = "block";
 
     filterHintComment.style.top = offset(filterHintArrow).top + filterHintArrow.clientHeight + 30 + "px";
+  }
 
-    document.getElementsByTagName("body")[0].onresize = function () {
-      filterHintHomeTeam.style.width = filterHintHomeTeamTarget.clientWidth + 17 + "px";
-      filterHintAwayTeam.style.width = filterHintAwayTeamTarget.clientWidth + 17 + "px";
+  document.getElementsByTagName("body")[0].onresize = function () {
+    filterHintHomeTeam.style.width = filterHintHomeTeamTarget.clientWidth + 17 + "px";
+    filterHintAwayTeam.style.width = filterHintAwayTeamTarget.clientWidth + 17 + "px";
     filterHintAwayTeam.style.top = offset(filterHintAwayTeamTarget).top - 7 + "px";
     filterHintAwayTeam.style.left = offset(filterHintAwayTeamTarget).left - 8 + "px";
-    };
+  };
 
-    document.getElementById("filter-hint-ok").onclick = function () {
-      document.getElementById("page-filter").style.display = "none";
+  document.getElementById("filter-hint-ok").onclick = function () {
+    document.getElementById("page-filter").style.display = "none";
+    if (document.getElementById("filter-checkbox").checked) {
+      localStorage.skipHint = "skip";
     }
-  }
+  };
 
   function offset(el) {
     const rect = el.getBoundingClientRect(),
@@ -302,10 +307,16 @@
     }
   }
 
-  // ctrl + R => clear localstorage
   $(document).keydown(function(e) {
+    // ctrl + R => clear localstorage
     if (e.keyCode == 82 && e.ctrlKey) {
       localStorage.clear();
+      return
+    }
+    // ESCAPE or ENTER
+    if (e.keyCode === 27 || e.keyCode === 13) {
+      document.getElementById("page-filter").style.display = "none";
+      return;
     }
   });
 </script>

@@ -17,14 +17,21 @@
 <body>
 <div id="page-filter">
   <h1 id="filter-hint-comment">Start with selecting the country, competition, season and then the team<br>
-    <input type="button" id="filter-hint-ok" class="btn btn-default" value="OK"></h1>
+    <input type="button" id="filter-hint-ok" class="btn btn-default" value="OK"><br>
+    <div class="checkbox">
+      <label style="font-size: 19px;">
+        <input id="filter-checkbox" type="checkbox"> Skip next time
+      </label>
+    </div>
+  </h1>
   <div id="filter-hint-menu"></div>
   <div id="filter-hint-home-team"></div>
   <img id="filter-arrow" src="img/arrow.png">
 </div>
+
 <div class="sidebar-container-left">
   <div class="sidebar-logo">
-    Football Analytics
+    <a href="interactive_data.html">Football Analytics</a>
   </div>
   <div id="filter-hint-menu-target">
     <ul class="sidebar-navigation">
@@ -89,22 +96,18 @@
     }
   }
 
-  // this is the first time
-  if (!localStorage.noFirstVisit) {
+  let filterHintMenu = document.getElementById("filter-hint-menu");
+  let filterHintMenuTarget = document.getElementById("filter-hint-menu-target");
+
+  let filterHintTeam = document.getElementById("filter-hint-home-team");
+  let filterHintTeamTarget = document.getElementById("team");
+
+  let filterHintArrow = document.getElementById("filter-arrow");
+
+  let filterHintComment = document.getElementById("filter-hint-comment");
+
+  if (!localStorage.skipHint) {
     document.getElementById("page-filter").style.display = "block";
-
-    // check this flag for escaping this "if" block next time
-    localStorage.noFirstVisit = "1";
-
-    let filterHintMenu = document.getElementById("filter-hint-menu");
-    let filterHintMenuTarget = document.getElementById("filter-hint-menu-target");
-
-    let filterHintTeam = document.getElementById("filter-hint-home-team");
-    let filterHintTeamTarget = document.getElementById("team");
-
-    let filterHintArrow = document.getElementById("filter-arrow");
-
-    let filterHintComment = document.getElementById("filter-hint-comment");
 
     filterHintMenu.style.width = filterHintMenuTarget.clientWidth + "px";
     filterHintMenu.style.height = filterHintMenuTarget.clientHeight + "px";
@@ -121,20 +124,29 @@
     filterHintArrow.style.display = "block";
 
     filterHintComment.style.top = filterHintArrow.offsetTop + filterHintArrow.clientHeight + 30 + "px";
-
-    document.getElementsByTagName("body")[0].onresize = function () {
-      filterHintTeam.style.width = filterHintTeamTarget.clientWidth + 17 + "px";
-    };
-
-    document.getElementById("filter-hint-ok").onclick = function () {
-      document.getElementById("page-filter").style.display = "none";
-    }
   }
 
-  // ctrl + R => clear localstorage
+  document.getElementsByTagName("body")[0].onresize = function () {
+    filterHintTeam.style.width = filterHintTeamTarget.clientWidth + 17 + "px";
+  };
+
+  document.getElementById("filter-hint-ok").onclick = function () {
+    document.getElementById("page-filter").style.display = "none";
+    if (document.getElementById("filter-checkbox").checked) {
+      localStorage.skipHint = "skip";
+    }
+  };
+
   $(document).keydown(function(e) {
+    // ctrl + R => clear localstorage
     if (e.keyCode == 82 && e.ctrlKey) {
       localStorage.clear();
+      return
+    }
+    // ESCAPE or ENTER
+    if (e.keyCode === 27 || e.keyCode === 13) {
+      document.getElementById("page-filter").style.display = "none";
+      return;
     }
   });
 </script>
