@@ -55,7 +55,7 @@ Pendant un match toute une série d'événements ont lieu. Ils peuvent être de 
 
 Les événements peuvent être de nature très différentes. nous avons décidé des les représenter sur une carte représentant un terrain de football. Pour la représentation, nous avons choisi d'encoder la densité des points dans une zone par une couleur évoluant du bleu au rouge. Nous pouvons ainsi afficher une heatmap d'un ou plusieurs joueurs. 
 
-![image-20191212172615302](/Users/ludo/Cours/Master/3eme Semestre/VI/Football-Analytics/img/heatmap.png)
+![image-20191212172615302](img/heatmap.png)
 
 ​						*Heatmap de Xavi lors du match entre Barcelone et Valence (6 - 0 pour Barcelone)*
 
