@@ -207,3 +207,13 @@ table[id^="stats-table"] > tfoot > tr > td {
   position: fixed;
   display: none;
 }
+
+footer {
+  line-height: 32px;
+  background-color: #1a1a1a;
+  color: white;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding-right: 10px;
+}
